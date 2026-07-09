@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html class="light" lang="ko">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>관리자 | 왕가부동산</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #fff8f1;
+            font-size: 15px;
+        }
+        input, button, a { min-height: 44px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { text-align: left; padding: 12px; border-bottom: 1px solid #d2c5ab; font-size: 14px; }
+        th { color: #745b00; font-weight: 700; }
+        @media (max-width: 640px) {
+          table, thead, tbody, th, td, tr { display: block; }
+          thead { display: none; }
+          tr { margin-bottom: 16px; border: 1px solid #d2c5ab; border-radius: 8px; padding: 8px; }
+          td { border: none; display: flex; justify-content: space-between; gap: 8px; }
+          td::before { content: attr(data-label); font-weight: 700; color: #745b00; }
+        }
+</style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface": "#F9F9F9", "background": "#fff8f1", "error": "#ba1a1a",
+                        "canvas": "#FFFFFF", "muted": "#666666", "ink": "#151515",
+                        "on-surface": "#1f1b10", "divider": "#AAAAAA", "primary": "#745b00",
+                        "primary-container": "#ffcc00", "on-primary": "#ffffff"
+                    },
+                    "spacing": { "md": "16px", "xl": "32px", "section": "64px", "lg": "24px", "base": "20px", "sm": "8px", "xs": "4px" },
+                    "fontFamily": { "body-main": ["Noto Sans KR"], "headline-section": ["Plus Jakarta Sans"] }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface min-h-screen">
+<header class="w-full sticky top-0 z-50 bg-surface border-b border-divider shadow-sm">
+<div class="max-w-5xl mx-auto px-lg flex justify-between items-center h-16">
+<a href="index.html" class="text-headline-section font-headline-section font-bold text-primary">왕가부동산</a>
+<a href="index.html" class="text-on-surface-variant hover:text-primary transition-colors font-body-main">사이트로 돌아가기</a>
+</div>
+</header>
+<main class="max-w-5xl mx-auto px-lg py-section">
+<div id="login-view" class="hidden flex justify-center">
+<div class="w-full max-w-sm bg-canvas rounded-xl shadow-sm border border-divider/20 p-xl">
+<h1 class="font-headline-section text-xl font-bold text-ink mb-lg text-center">관리자 로그인</h1>
+<form id="login-form" class="flex flex-col gap-md">
+<div>
+<label class="block font-bold text-ink mb-xs" for="password">비밀번호</label>
+<input id="password" type="password" required class="w-full px-md py-sm rounded-lg border border-divider focus:outline-none focus:ring-2 focus:ring-primary">
+</div>
+<div id="login-error" class="hidden text-error text-sm"></div>
+<button type="submit" class="px-lg py-md rounded-lg bg-primary-container text-on-surface font-bold">로그인</button>
+</form>
+</div>
+</div>
+<div id="dashboard-view" class="hidden">
+<div class="flex flex-col sm:flex-row justify-between sm:items-center gap-md mb-xl">
+<h1 class="font-headline-section text-2xl font-bold text-ink">게시글 관리</h1>
+<div class="flex gap-md">
+<a href="news-write.html" class="px-lg py-md rounded-lg bg-primary-container text-on-surface font-bold flex items-center justify-center">새 글 작성</a>
+<button id="logout-btn" class="px-lg py-md rounded-lg border border-divider text-ink font-bold">로그아웃</button>
+</div>
+</div>
+<div class="bg-canvas rounded-xl shadow-sm border border-divider/20 p-md md:p-lg overflow-x-auto">
+<table>
+<thead>
+<tr><th>번호</th><th>카테고리</th><th>제목</th><th>작성일</th><th>관리</th></tr>
+</thead>
+<tbody id="post-table-body"></tbody>
+</table>
+<div id="empty-message" class="hidden text-center text-muted py-xl">작성된 게시글이 없습니다.</div>
+</div>
+</div>
+</main>
+<script src="db.js"></script>
+<script>
+async function showLogin() {
+  document.getElementById('login-view').classList.remove('hidden');
+  document.getElementById('dashboard-view').classList.add('hidden');
+}
+
+async function showDashboard() {
+  document.getElementById('login-view').classList.add('hidden');
+  document.getElementById('dashboard-view').classList.remove('hidden');
+  await loadPosts();
+}
+
+async function loadPosts() {
+  const tbody = document.getElementById('post-table-body');
+  const emptyMsg = document.getElementById('empty-message');
+  tbody.innerHTML = '<tr><td colspan="5" class="text-center text-muted">불러오는 중...</td></tr>';
+  try {
+    const posts = await getPosts();
+    if (!posts.length) {
+      tbody.innerHTML = '';
+      emptyMsg.classList.remove('hidden');
+      return;
+    }
+    emptyMsg.classList.add('hidden');
+    tbody.innerHTML = posts.map(function (post, idx) {
+      return '<tr>' +
+        '<td data-label="번호">' + (idx + 1) + '</td>' +
+        '<td data-label="카테고리">' + escapeHtml(post.category || '') + '</td>' +
+        '<td data-label="제목">' + escapeHtml(post.title || '') + '</td>' +
+        '<td data-label="작성일">' + escapeHtml(post.date || '') + '</td>' +
+        '<td data-label="관리"><div class="flex gap-sm justify-end sm:justify-start">' +
+        '<a href="news-write.html?id=' + encodeURIComponent(post.id) + '" class="px-md py-xs rounded bg-primary-container text-on-surface text-sm font-bold flex items-center">수정</a>' +
+        '<button data-id="' + escapeHtml(post.id) + '" data-title="' + escapeHtml(post.title || '') + '" class="delete-btn px-md py-xs rounded bg-error text-white text-sm font-bold">삭제</button>' +
+        '</div></td>' +
+        '</tr>';
+    }).join('');
+    tbody.querySelectorAll('.delete-btn').forEach(function (btn) {
+      btn.addEventListener('click', async function () {
+        if (!confirm('"' + btn.getAttribute('data-title') + '" 게시글을 삭제하시겠습니까?')) return;
+        btn.disabled = true;
+        try {
+          await deletePost(btn.getAttribute('data-id'));
+          await loadPosts();
+        } catch (e) {
+          alert('삭제 실패: ' + e.message);
+          btn.disabled = false;
+        }
+      });
+    });
+  } catch (e) {
+    tbody.innerHTML = '<tr><td colspan="5" class="text-center text-error">게시글을 불러오지 못했습니다: ' + escapeHtml(e.message) + '</td></tr>';
+  }
+}
+
+document.getElementById('login-form').addEventListener('submit', async function (e) {
+  e.preventDefault();
+  const config = await loadConfig();
+  const input = document.getElementById('password').value;
+  if (input === config.admin_password) {
+    sessionStorage.setItem('isAdmin', 'true');
+    window.location.reload();
+  } else {
+    const errEl = document.getElementById('login-error');
+    errEl.textContent = '비밀번호가 올바르지 않습니다.';
+    errEl.classList.remove('hidden');
+  }
+});
+
+document.getElementById('logout-btn').addEventListener('click', function () {
+  sessionStorage.removeItem('isAdmin');
+  window.location.reload();
+});
+
+(function init() {
+  if (isAdmin()) {
+    showDashboard();
+  } else {
+    showLogin();
+  }
+})();
+</script>
+</body>
+</html>

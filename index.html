@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>하남미사 부동산 - 신뢰받는 파트너</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-fixed": "#e6deff",
+                    "surface-container-low": "#fdf2e0",
+                    "inverse-surface": "#353024",
+                    "on-secondary-fixed-variant": "#4730a7",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary-container": "#2e098f",
+                    "surface-bright": "#fff8f1",
+                    "secondary": "#604ac0",
+                    "tertiary-container": "#00e7fe",
+                    "primary-tint": "#FAEAAD",
+                    "surface": "#F9F9F9",
+                    "surface-container-highest": "#ebe1d0",
+                    "on-secondary": "#ffffff",
+                    "body": "#333333",
+                    "tertiary": "#006874",
+                    "primary-container": "#ffcc00",
+                    "on-tertiary-container": "#00646e",
+                    "on-tertiary": "#ffffff",
+                    "on-primary-fixed": "#241a00",
+                    "surface-alt": "#F9FAFE",
+                    "tertiary-fixed-dim": "#00daf0",
+                    "outline": "#80765f",
+                    "surface-tint": "#745b00",
+                    "on-primary-container": "#6f5700",
+                    "background": "#fff8f1",
+                    "outline-variant": "#d2c5ab",
+                    "error": "#ba1a1a",
+                    "on-primary-fixed-variant": "#584400",
+                    "inverse-primary": "#f1c100",
+                    "on-background": "#1f1b10",
+                    "surface-container": "#f7eddb",
+                    "canvas": "#FFFFFF",
+                    "on-error-container": "#93000a",
+                    "surface-variant": "#ebe1d0",
+                    "muted": "#666666",
+                    "ink": "#151515",
+                    "on-error": "#ffffff",
+                    "primary-light": "#FFE066",
+                    "on-surface": "#1f1b10",
+                    "secondary-container": "#9884fd",
+                    "error-container": "#ffdad6",
+                    "divider": "#AAAAAA",
+                    "on-tertiary-fixed": "#001f24",
+                    "inverse-on-surface": "#faf0dd",
+                    "primary": "#745b00",
+                    "surface-dim": "#e3d9c7",
+                    "tertiary-fixed": "#95f1ff",
+                    "on-tertiary-fixed-variant": "#004f57",
+                    "primary-fixed-dim": "#f1c100",
+                    "on-primary": "#ffffff",
+                    "on-surface-variant": "#4e4632",
+                    "surface-container-high": "#f1e7d5",
+                    "primary-fixed": "#ffe08b",
+                    "on-secondary-fixed": "#1b0062",
+                    "secondary-fixed-dim": "#c9beff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "md": "16px",
+                    "xl": "32px",
+                    "section": "64px",
+                    "lg": "24px",
+                    "base": "20px",
+                    "sm": "8px",
+                    "xs": "4px",
+                    "xxl": "48px"
+            },
+            "fontFamily": {
+                    "body-main": ["Noto Sans KR", "sans-serif"],
+                    "headline-section": ["Plus Jakarta Sans", "sans-serif"],
+                    "button-lg": ["Plus Jakarta Sans", "sans-serif"],
+                    "display-hero": ["Plus Jakarta Sans", "sans-serif"],
+                    "label-muted": ["Noto Sans KR", "sans-serif"]
+            },
+            "fontSize": {
+                    "body-main": ["15px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-section": ["24px", {"lineHeight": "33.6px", "fontWeight": "600"}],
+                    "button-lg": ["18px", {"lineHeight": "18px", "fontWeight": "600"}],
+                    "display-hero": ["32px", {"lineHeight": "41.6px", "fontWeight": "400"}],
+                    "label-muted": ["13px", {"lineHeight": "18px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        body {
+            background-color: #F9F9F9;
+            color: #333333;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 15px;
+        }
+        img { max-width: 100%; }
+        a, button { min-height: 44px; }
+</style>
+</head>
+<body class="bg-surface text-body font-body-main">
+<header class="w-full sticky top-0 z-50 bg-surface border-b border-divider shadow-sm">
+<div class="max-w-7xl mx-auto px-lg flex justify-between items-center h-16">
+<div class="text-headline-section font-headline-section font-bold text-primary">왕가부동산</div>
+<nav class="hidden md:flex gap-xl items-center">
+<a class="text-primary border-b-2 border-primary font-bold pb-1 font-headline-section text-headline-section text-[16px]" href="index.html">홈</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-headline-section text-headline-section text-[16px]" href="#">추천 매물</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-headline-section text-headline-section text-[16px]" href="news.html">부동산 뉴스</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-headline-section text-headline-section text-[16px]" href="#">미사 소식</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-headline-section text-headline-section text-[16px]" href="#">상담 문의</a>
+</nav>
+<div class="flex items-center gap-md">
+<button class="bg-primary-container text-on-primary-container px-base py-sm rounded-lg font-bold hover:opacity-90 transition-opacity">
+                    전화 연결
+                </button>
+</div>
+</div>
+</header>
+<main>
+<section class="relative min-h-[500px] sm:h-[600px] flex items-center overflow-hidden">
+<div class="absolute inset-0 z-0">
+<div class="w-full h-full bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCQDEhRubtDcrGFYU3VuI6dLynqG3L4fNNoudXbbUD39KSzHdQDAnStaCPyTGbtP9jKj61nlJKT3ZQkwxXUrssoq-Ao1Lcb3bUvlawzuSx6H-6TYsN4qNj-Y5KB7zjegd3WnwLwUrtr-zned_gyAZ4fpsT5yU7jqgVubi_QP_G_N9aBVEjviOcC-aLAjceSFIrbU6em1C_IHeLcJnbu5V8bgLXf754pR1Ma2AR1R-j6x5uNyvWSp69KJizYPxVa3q5n3hiS_Atlm_Es'); background-size: cover;"></div>
+<div class="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent"></div>
+</div>
+<div class="container max-w-7xl mx-auto px-lg relative z-10">
+<div class="max-w-2xl text-white">
+<h1 class="font-display-hero text-display-hero font-bold mb-md leading-tight">하남 미사의 신뢰받는 파트너,<br/><span class="text-primary-container">공인중개사 신득주</span></h1>
+<p class="text-base sm:text-lg opacity-90 mb-xl font-body-main">
+                        철저한 시장 분석과 정직한 중개로 당신의 소중한 자산을 지킵니다.<br/>
+                        미사 강변도시의 모든 매물을 한눈에 확인하세요.
+                    </p>
+<div class="flex flex-wrap gap-md">
+<div class="flex items-center gap-xs bg-white/20 backdrop-blur-md px-md py-sm rounded-full border border-white/30">
+<span class="material-symbols-outlined text-[20px]">verified</span>
+<span class="text-sm font-medium">10년 경력 전문성</span>
+</div>
+<div class="flex items-center gap-xs bg-white/20 backdrop-blur-md px-md py-sm rounded-full border border-white/30">
+<span class="material-symbols-outlined text-[20px]">location_on</span>
+<span class="text-sm font-medium">미사역 도보 5분</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="bg-primary-container py-xl">
+<div class="max-w-7xl mx-auto px-lg">
+<div class="flex flex-col md:flex-row items-center justify-between gap-lg bg-white/10 p-lg rounded-2xl border border-on-primary-container/10">
+<div class="text-on-primary-container text-center md:text-left">
+<h2 class="text-headline-section font-bold mb-xs">궁금한 매물이 있으신가요?</h2>
+<p class="opacity-80">전문 상담사가 실시간으로 최적의 매물을 추천해 드립니다.</p>
+</div>
+<a href="tel:031-123-4567" class="flex items-center justify-center gap-md bg-ink text-primary-container px-xxl py-md rounded-xl font-button-lg text-button-lg hover:scale-105 transition-transform shadow-lg group w-full md:w-auto">
+<span class="material-symbols-outlined group-hover:animate-bounce">call</span>
+                        즉시 전화 상담하기
+                    </a>
+</div>
+</div>
+</section>
+<section class="py-section max-w-7xl mx-auto px-lg">
+<div class="flex flex-col sm:flex-row justify-between sm:items-end gap-md mb-xl">
+<div>
+<h2 class="font-headline-section text-headline-section font-bold text-ink mb-xs">이번 주 추천 매물</h2>
+<p class="text-muted">공인중개사가 직접 검증한 미사 지역 최상급 매물</p>
+</div>
+<a class="text-primary font-bold flex items-center gap-xs hover:underline" href="#">
+                    전체 보기 <span class="material-symbols-outlined">arrow_forward</span>
+</a>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-lg">
+<div class="bg-white rounded-xl shadow-[0_1px_3px_0_rgba(0,0,0,0.16)] overflow-hidden transition-transform hover:-translate-y-2">
+<div class="h-48 relative overflow-hidden">
+<img class="w-full h-full object-cover" alt="미사강변 골든센트로" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAakoXhX2qvvq-5WlNqqr8AH_7asW5yanIrSut5IHNg0o2WzZqr4WMf_dDrGoSRPsNpQiUflH9H_BD2fGiNQoMqSEhtnTF72a1ElQ5tpztLs6UUMuh6VyXk9BA9UDOhlwmUTbveKTZMnmOBBI3NEkBOYUj23V06iiO5D8TxXy_-_clBwCoF6wXJsJKEXNqx9YfZEx47SvQxvC1-2j-nW99FVfU11CGHQb9VJPtVc9__DTEfdE22evZoiRQlb67pxr5zRSLu8B1iAnfa"/>
+<div class="absolute top-md left-md bg-ink/70 text-white px-sm py-xs text-xs rounded font-bold backdrop-blur-sm">매매</div>
+</div>
+<div class="p-md">
+<h3 class="font-bold text-ink text-lg mb-xs truncate">미사강변 골든센트로</h3>
+<p class="text-muted text-sm mb-md flex items-center gap-xs">
+<span class="material-symbols-outlined text-sm">location_on</span> 하남시 망월동
+                        </p>
+<div class="flex justify-between items-center border-t border-divider pt-md">
+<span class="text-ink font-extrabold text-xl">12억 5,000</span>
+<span class="text-muted text-xs">84㎡ / 고층</span>
+</div>
+</div>
+</div>
+<div class="bg-white rounded-xl shadow-[0_1px_3px_0_rgba(0,0,0,0.16)] overflow-hidden transition-transform hover:-translate-y-2">
+<div class="h-48 relative overflow-hidden">
+<img class="w-full h-full object-cover" alt="미사강변 센트럴자이" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBkZIwjgEzLdLAAnnAkc-aLewdfB8Lguml__hEfPRF0FAQgoDBuipLuaGI8BUeDaflGUlGPFFCfKlC4EWvUSfcjSgiOPIj1i1AZzgTisVYvdpAp3mb0x82UQunPz4XkG1DL6tVqR90Dz-OZ9gyyt2CQ3A6QaMtPYd61qLtOy-Ux7mzjOzvshFshDIz1x1Ps2Ve8sJS_9heII6giPa45bdqLAHDDJUSQPhasga8o4vpbZTaK2MjdmlKtU8FcU-nmsIiY9CD6ZUcqzXjI"/>
+<div class="absolute top-md left-md bg-secondary text-white px-sm py-xs text-xs rounded font-bold backdrop-blur-sm">전세</div>
+</div>
+<div class="p-md">
+<h3 class="font-bold text-ink text-lg mb-xs truncate">미사강변 센트럴자이</h3>
+<p class="text-muted text-sm mb-md flex items-center gap-xs">
+<span class="material-symbols-outlined text-sm">location_on</span> 하남시 선동
+                        </p>
+<div class="flex justify-between items-center border-t border-divider pt-md">
+<span class="text-ink font-extrabold text-xl">7억 8,000</span>
+<span class="text-muted text-xs">91㎡ / 중층</span>
+</div>
+</div>
+</div>
+<div class="bg-white rounded-xl shadow-[0_1px_3px_0_rgba(0,0,0,0.16)] overflow-hidden transition-transform hover:-translate-y-2">
+<div class="h-48 relative overflow-hidden">
+<img class="w-full h-full object-cover" alt="미사역 초역세권 상가" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjvfy97ue3qmgjpirla0j0UDcGpXAP3otqCBQoNYkC8xnd7suaCsKpYAuiPbhsoTAUckEOzEeUvObebLgjj6zjECW3TdCIN_mXSAmiJwWhgm41CZ_diRrTAoKtgvjQF6sDY9RHs90rjkjCtQZvvBYeHVSRdbg8jJIVOCW5yIgwJ0cruPeCkf4fEBbFLVuW6RrPm4fmLE1d3nHh14gCd0oifsyO9Jsk8IoAHMaaGc1kGN36aWjp3tbB5hxmWeNHeOXUinEyjtR2S0XR"/>
+<div class="absolute top-md left-md bg-error text-white px-sm py-xs text-xs rounded font-bold backdrop-blur-sm">급매</div>
+</div>
+<div class="p-md">
+<h3 class="font-bold text-ink text-lg mb-xs truncate">미사역 초역세권 상가</h3>
+<p class="text-muted text-sm mb-md flex items-center gap-xs">
+<span class="material-symbols-outlined text-sm">location_on</span> 하남시 망월동
+                        </p>
+<div class="flex justify-between items-center border-t border-divider pt-md">
+<span class="text-ink font-extrabold text-xl">15억 2,000</span>
+<span class="text-muted text-xs">45㎡ / 1층</span>
+</div>
+</div>
+</div>
+<div class="bg-white rounded-xl shadow-[0_1px_3px_0_rgba(0,0,0,0.16)] overflow-hidden transition-transform hover:-translate-y-2">
+<div class="h-48 relative overflow-hidden">
+<img class="w-full h-full object-cover" alt="미사강변 호반써밋" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkP69ZlghfICAGbEl-ESvR_bnzrFUeItnjP4Qncx6OZvjzAnddRj-SWz40Q-IJuxzXywSouc7MDE2xF2GHUYG2t8gpdO6H0L6-KVeWFZcWeTsmfxuBKlRjQznudHef0b3KnZ86g886UglhLzHe-N7I56YUa2MWL0G6qH-XT4QBaqbYBkGFnwPobZIoD5-C69kJVsob2ivYOKGRKamRfhuJyglC11pbAhOyt4MmoBj7fB2nW2USbsBkDkDPZ_sr3bM4GAvu1vriQqo1"/>
+<div class="absolute top-md left-md bg-primary text-white px-sm py-xs text-xs rounded font-bold backdrop-blur-sm">월세</div>
+</div>
+<div class="p-md">
+<h3 class="font-bold text-ink text-lg mb-xs truncate">미사강변 호반써밋</h3>
+<p class="text-muted text-sm mb-md flex items-center gap-xs">
+<span class="material-symbols-outlined text-sm">location_on</span> 하남시 망월동
+                        </p>
+<div class="flex justify-between items-center border-t border-divider pt-md">
+<span class="text-ink font-extrabold text-xl">5,000 / 210</span>
+<span class="text-muted text-xs">99㎡ / 고층</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="bg-surface-container-low py-section">
+<div class="max-w-7xl mx-auto px-lg">
+<div class="text-center mb-xl">
+<h2 class="font-headline-section text-headline-section font-bold text-ink mb-xs">왕가부동산만의 특별한 서비스</h2>
+<p class="text-muted">우리는 단순한 거래를 넘어 고객의 성공적인 미래를 설계합니다.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-lg">
+<div class="bg-white p-xl rounded-2xl border border-outline-variant/30 flex flex-col items-center text-center">
+<div class="w-16 h-16 bg-primary-tint rounded-full flex items-center justify-center text-primary mb-lg">
+<span class="material-symbols-outlined text-[32px]">handshake</span>
+</div>
+<h3 class="text-xl font-bold mb-md">정직한 중개</h3>
+<p class="text-body-main text-muted leading-relaxed">허위 매물 제로! 실제 확인된 매물만을 정직하게 안내하여 고객님의 소중한 시간을 아껴드립니다.</p>
+</div>
+<div class="bg-white p-xl rounded-2xl border border-outline-variant/30 flex flex-col items-center text-center">
+<div class="w-16 h-16 bg-primary-tint rounded-full flex items-center justify-center text-primary mb-lg">
+<span class="material-symbols-outlined text-[32px]">analytics</span>
+</div>
+<h3 class="text-xl font-bold mb-md">철저한 권리분석</h3>
+<p class="text-body-main text-muted leading-relaxed">법률 전문가 수준의 철저한 권리분석을 통해 계약부터 잔금까지 안전한 거래를 보장합니다.</p>
+</div>
+<div class="bg-white p-xl rounded-2xl border border-outline-variant/30 flex flex-col items-center text-center">
+<div class="w-16 h-16 bg-primary-tint rounded-full flex items-center justify-center text-primary mb-lg">
+<span class="material-symbols-outlined text-[32px]">location_searching</span>
+</div>
+<h3 class="text-xl font-bold mb-md">지역 밀착 정보</h3>
+<p class="text-body-main text-muted leading-relaxed">미사 지역에서 10년 이상 거주하며 얻은 생생한 지역 호재와 인프라 정보를 공유합니다.</p>
+</div>
+</div>
+</div>
+</section>
+<section class="bg-surface py-section">
+<div class="max-w-7xl mx-auto px-lg">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-xl items-center">
+<div class="relative">
+<img alt="공인중개사 신득주" class="w-full h-full object-cover rounded-2xl shadow-lg" src="agent.jpg"/>
+</div>
+<div class="flex flex-col gap-md">
+<h2 class="font-headline-section text-headline-section text-ink">신뢰로 보답하는 공인중개사 신득주입니다</h2>
+<p class="text-body-main text-body leading-relaxed">
+          하남 미사 강변도시에서 10년 넘게 한 자리를 지켜온 전문성을 바탕으로, 고객님의 소중한 자산을 정직하고 투명하게 중개해 드립니다. 단순한 거래를 넘어 고객님의 성공적인 미래를 함께 설계하는 파트너가 되겠습니다.
+        </p>
+<ul class="space-y-sm">
+<li class="flex items-center gap-xs text-body-main text-body">
+<span class="material-symbols-outlined text-primary text-[20px]">check_circle</span>
+            철저한 권리분석 및 리스크 관리
+          </li>
+<li class="flex items-center gap-xs text-body-main text-body">
+<span class="material-symbols-outlined text-primary text-[20px]">check_circle</span>
+            미사 전 지역 최다 매물 보유
+          </li>
+<li class="flex items-center gap-xs text-body-main text-body">
+<span class="material-symbols-outlined text-primary text-[20px]">check_circle</span>
+            맞춤형 자산 관리 컨설팅
+          </li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section class="bg-white py-section">
+<div class="max-w-7xl mx-auto px-lg">
+<h2 class="font-headline-section text-headline-section text-ink text-center mb-xl">고객님들이 전하는 왕가부동산 이야기</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-lg">
+<div class="bg-white p-lg rounded-2xl shadow-[0_1px_3px_0_rgba(0,0,0,0.16)] flex flex-col gap-md">
+<div class="flex text-primary-container">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="text-body-main text-muted leading-relaxed">"미사역 근처 아파트를 찾던 중 신득주 소장님을 만났습니다. 지역 정보에 정말 밝으시고, 저희 가족 상황에 딱 맞는 매물을 추천해 주셔서 만족스럽게 입주했습니다."</p>
+<p class="text-sm font-bold text-ink">이지은 님</p>
+</div>
+<div class="bg-white p-lg rounded-2xl shadow-[0_1px_3px_0_rgba(0,0,0,0.16)] flex flex-col gap-md">
+<div class="flex text-primary-container">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="text-body-main text-muted leading-relaxed">"상가 투자는 처음이라 걱정이 많았는데, 복잡한 권리 관계를 알기 쉽게 설명해 주시고 수익률 분석까지 꼼꼼히 해주셔서 믿고 계약할 수 있었습니다."</p>
+<p class="text-sm font-bold text-ink">박민준 님</p>
+</div>
+<div class="bg-white p-lg rounded-2xl shadow-[0_1px_3px_0_rgba(0,0,0,0.16)] flex flex-col gap-md">
+<div class="flex text-primary-container">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="text-body-main text-muted leading-relaxed">"전세 계약할 때 보증금 문제로 불안했는데, 공인중개사님이 직접 꼼꼼하게 서류 체크해 주시고 안심할 수 있도록 끝까지 챙겨주셔서 정말 감사했습니다."</p>
+<p class="text-sm font-bold text-ink">김순희 님</p>
+</div>
+</div>
+</div>
+</section>
+<section id="board-preview-section" class="py-section max-w-7xl mx-auto px-lg">
+<div class="flex flex-col sm:flex-row justify-between sm:items-end gap-md mb-xl">
+<div>
+<h2 class="font-headline-section text-headline-section font-bold text-ink mb-xs">최신 소식</h2>
+<p class="text-muted">왕가부동산이 전하는 미사 지역 최신 부동산 뉴스</p>
+</div>
+<a class="text-primary font-bold flex items-center gap-xs hover:underline" href="news.html">
+                    전체 게시글 보기 <span class="material-symbols-outlined">arrow_forward</span>
+</a>
+</div>
+<div id="board-preview" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-lg"></div>
+</section>
+<section class="max-w-7xl mx-auto px-lg pb-section">
+<div class="bg-ink text-white rounded-2xl p-xl flex flex-col justify-center relative overflow-hidden">
+<div class="absolute -right-16 -bottom-16 w-64 h-64 bg-primary/20 rounded-full blur-3xl"></div>
+<h3 class="text-2xl font-bold mb-md relative z-10">매물을 내놓고 싶으신가요?</h3>
+<p class="opacity-80 mb-xl relative z-10">빠른 거래와 제값을 받는 중개를 약속합니다. 지금 바로 온라인 매물 접수를 이용해 보세요.</p>
+<button class="w-full md:w-fit bg-primary-container text-on-primary-container px-lg py-md rounded-xl font-bold hover:scale-105 transition-transform relative z-10">
+                        온라인 매물 접수하기
+                    </button>
+</div>
+</section>
+</main>
+<footer class="w-full mt-xxl bg-surface-container-highest pb-24 md:pb-0">
+<div class="max-w-7xl mx-auto px-lg py-xl flex flex-col md:flex-row justify-between border-t border-divider/30">
+<div class="mb-xl md:mb-0">
+<div class="font-headline-section text-headline-section font-bold text-on-surface mb-md">왕가부동산</div>
+<p class="text-muted text-sm leading-relaxed max-w-sm mb-lg">경기도 하남시 미사강변동로 100, 미사역 타워 3층 301호<br/>대표: 신득주 | 등록번호: 123-45-67890<br/>T. 031-123-4567 | F. 031-123-4568</p>
+<div class="flex gap-md">
+<a class="w-11 h-11 bg-on-surface/5 rounded-full flex items-center justify-center text-on-surface hover:bg-primary hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">chat</span>
+</a>
+<a class="w-11 h-11 bg-on-surface/5 rounded-full flex items-center justify-center text-on-surface hover:bg-primary hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">mail</span>
+</a>
+</div>
+</div>
+<div class="flex flex-col md:items-end gap-md">
+<div class="flex flex-wrap gap-md mb-md">
+<a class="text-muted hover:text-ink hover:underline font-body-main text-body-main" href="#">이용약관</a>
+<a class="text-muted hover:text-ink hover:underline font-body-main text-body-main font-bold" href="#">개인정보처리방침</a>
+<a class="text-muted hover:text-ink hover:underline font-body-main text-body-main" href="admin.html" id="agent-login-btn">Agent Login</a>
+</div>
+<p class="text-muted text-sm">© 2024 왕가부동산 공인중개사사무소. All rights reserved.</p>
+</div>
+</div>
+</footer>
+<nav class="fixed bottom-0 w-full z-50 bg-surface shadow-[0_-1px_3px_0_rgba(0,0,0,0.16)] flex justify-around items-center px-base py-sm md:hidden">
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-xl p-xs min-w-[44px] min-h-[44px]" href="index.html">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="text-[10px] mt-xs">홈</span>
+</a>
+<a class="flex flex-col items-center justify-center text-muted p-xs min-w-[44px] min-h-[44px] active:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">star</span>
+<span class="text-[10px] mt-xs">추천</span>
+</a>
+<a class="flex flex-col items-center justify-center text-muted p-xs min-w-[44px] min-h-[44px] active:bg-surface-container-high transition-colors" href="news.html">
+<span class="material-symbols-outlined">newspaper</span>
+<span class="text-[10px] mt-xs">뉴스</span>
+</a>
+<a class="flex flex-col items-center justify-center text-muted p-xs min-w-[44px] min-h-[44px] active:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">location_city</span>
+<span class="text-[10px] mt-xs">미사</span>
+</a>
+<a class="flex flex-col items-center justify-center text-muted p-xs min-w-[44px] min-h-[44px] active:bg-surface-container-high transition-colors" href="tel:031-123-4567">
+<span class="material-symbols-outlined">call</span>
+<span class="text-[10px] mt-xs">문의</span>
+</a>
+</nav>
+<script src="db.js"></script>
+<script>
+(async function renderBoardPreview() {
+  const section = document.getElementById('board-preview-section');
+  const container = document.getElementById('board-preview');
+  try {
+    const posts = await getPosts();
+    if (!posts.length) {
+      section.style.display = 'none';
+      return;
+    }
+    const latest = posts.slice(0, 3);
+    container.innerHTML = latest.map(function (post) {
+      const summary = markdownToText(post.content || '').slice(0, 60);
+      return '<a href="news-detail.html?id=' + encodeURIComponent(post.id) + '" class="block bg-white rounded-xl shadow-[0_1px_3px_0_rgba(0,0,0,0.16)] overflow-hidden transition-transform hover:-translate-y-2 p-md">' +
+        '<span class="inline-block bg-primary-tint text-primary text-xs font-bold px-sm py-xs rounded mb-sm">' + escapeHtml(post.category || '') + '</span>' +
+        '<h3 class="font-bold text-ink text-lg mb-xs">' + escapeHtml(post.title || '') + '</h3>' +
+        '<p class="text-muted text-sm mb-md">' + escapeHtml(summary) + (summary.length >= 60 ? '...' : '') + '</p>' +
+        '<span class="text-muted text-xs">' + escapeHtml(post.date || '') + '</span>' +
+        '</a>';
+    }).join('');
+  } catch (e) {
+    section.style.display = 'none';
+  }
+})();
+</script>
+</body>
+</html>

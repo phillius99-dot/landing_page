@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html class="light" lang="ko">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>미사 부동산 소식 | 왕가부동산</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-tab {
+            color: #745b00;
+            border-bottom: 2px solid #ffcc00;
+            font-weight: 700;
+        }
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #fff8f1;
+            font-size: 15px;
+        }
+        a, button { min-height: 44px; }
+</style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed": "#e6deff",
+                        "surface-container-low": "#fdf2e0",
+                        "inverse-surface": "#353024",
+                        "on-secondary-fixed-variant": "#4730a7",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-container": "#2e098f",
+                        "surface-bright": "#fff8f1",
+                        "secondary": "#604ac0",
+                        "tertiary-container": "#00e7fe",
+                        "primary-tint": "#FAEAAD",
+                        "surface": "#F9F9F9",
+                        "surface-container-highest": "#ebe1d0",
+                        "on-secondary": "#ffffff",
+                        "body": "#333333",
+                        "tertiary": "#006874",
+                        "primary-container": "#ffcc00",
+                        "on-tertiary-container": "#00646e",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-fixed": "#241a00",
+                        "surface-alt": "#F9FAFE",
+                        "tertiary-fixed-dim": "#00daf0",
+                        "outline": "#80765f",
+                        "surface-tint": "#745b00",
+                        "on-primary-container": "#6f5700",
+                        "background": "#fff8f1",
+                        "outline-variant": "#d2c5ab",
+                        "error": "#ba1a1a",
+                        "on-primary-fixed-variant": "#584400",
+                        "inverse-primary": "#f1c100",
+                        "on-background": "#1f1b10",
+                        "surface-container": "#f7eddb",
+                        "canvas": "#FFFFFF",
+                        "on-error-container": "#93000a",
+                        "surface-variant": "#ebe1d0",
+                        "muted": "#666666",
+                        "ink": "#151515",
+                        "on-error": "#ffffff",
+                        "primary-light": "#FFE066",
+                        "on-surface": "#1f1b10",
+                        "secondary-container": "#9884fd",
+                        "error-container": "#ffdad6",
+                        "divider": "#AAAAAA",
+                        "on-tertiary-fixed": "#001f24",
+                        "inverse-on-surface": "#faf0dd",
+                        "primary": "#745b00",
+                        "surface-dim": "#e3d9c7",
+                        "tertiary-fixed": "#95f1ff",
+                        "on-tertiary-fixed-variant": "#004f57",
+                        "primary-fixed-dim": "#f1c100",
+                        "on-primary": "#ffffff",
+                        "on-surface-variant": "#4e4632",
+                        "surface-container-high": "#f1e7d5",
+                        "primary-fixed": "#ffe08b",
+                        "on-secondary-fixed": "#1b0062",
+                        "secondary-fixed-dim": "#c9beff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "md": "16px",
+                        "xl": "32px",
+                        "section": "64px",
+                        "lg": "24px",
+                        "base": "20px",
+                        "sm": "8px",
+                        "xs": "4px",
+                        "xxl": "48px"
+                    },
+                    "fontFamily": {
+                        "body-main": ["Noto Sans KR"],
+                        "headline-section": ["Plus Jakarta Sans"],
+                        "button-lg": ["Plus Jakarta Sans"],
+                        "display-hero": ["Plus Jakarta Sans"],
+                        "label-muted": ["Noto Sans KR"]
+                    },
+                    "fontSize": {
+                        "body-main": ["15px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-section": ["24px", {"lineHeight": "33.6px", "fontWeight": "600"}],
+                        "button-lg": ["18px", {"lineHeight": "18px", "fontWeight": "600"}],
+                        "display-hero": ["32px", {"lineHeight": "41.6px", "fontWeight": "600"}],
+                        "label-muted": ["13px", {"lineHeight": "18px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface">
+<header class="w-full sticky top-0 z-50 bg-surface border-b border-divider shadow-sm">
+<div class="max-w-7xl mx-auto px-lg flex justify-between items-center h-16">
+<div class="text-headline-section font-headline-section font-bold text-primary">왕가부동산</div>
+<nav class="hidden md:flex space-x-lg h-full items-center">
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-main" href="index.html">홈</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-main" href="#">추천 매물</a>
+<a class="text-primary border-b-2 border-primary font-bold pb-1 font-body-main" href="news.html">부동산 뉴스</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-main" href="#">미사 소식</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-main" href="#">상담 문의</a>
+</nav>
+<div class="flex items-center space-x-md">
+<button class="bg-primary-container text-on-primary-fixed px-md py-sm rounded-lg font-button-lg text-sm">전화 연결</button>
+</div>
+</div>
+</header>
+<main class="max-w-7xl mx-auto px-lg py-section pb-24 md:pb-section">
+<div class="flex flex-col lg:flex-row gap-xl">
+<div class="flex-1 min-w-0">
+<h1 class="font-display-hero text-display-hero text-ink mb-xl">미사 부동산 소식</h1>
+<div class="flex border-b border-divider mb-lg overflow-x-auto whitespace-nowrap" id="tab-list"></div>
+<div class="mb-lg">
+<input id="search-input" type="text" placeholder="검색어를 입력하세요" class="w-full px-md py-sm rounded-lg border border-divider focus:outline-none focus:ring-2 focus:ring-primary text-sm" style="min-height:44px;">
+</div>
+<div id="news-list" class="bg-canvas rounded-xl shadow-sm overflow-hidden border border-divider/20"></div>
+</div>
+<aside class="w-full lg:w-80 shrink-0">
+<div class="sticky top-24 space-y-lg">
+<div class="bg-primary-container p-lg rounded-xl shadow-lg border-2 border-primary/10 flex flex-col items-center text-center">
+<div class="w-12 h-12 bg-white/40 rounded-full flex items-center justify-center mb-md">
+<span class="material-symbols-outlined text-on-primary-container" style="font-variation-settings: 'FILL' 1;">call</span>
+</div>
+<h3 class="font-headline-section text-on-primary-container mb-xs">전화 상담 문의</h3>
+<p class="font-body-main text-on-primary-container/80 mb-lg text-sm">미사 전문 공인중개사가<br>친절하게 상담해 드립니다.</p>
+<a class="w-full bg-ink text-white py-md rounded-lg font-bold flex items-center justify-center space-x-md hover:bg-ink/90 transition-all active:scale-95" href="tel:031-123-4567">
+<span class="material-symbols-outlined text-primary">phone_iphone</span>
+<span>031-123-4567</span>
+</a>
+</div>
+<div class="bg-canvas p-lg rounded-xl shadow-sm border border-divider/20">
+<h4 class="font-headline-section text-ink mb-md text-lg">대표 프로필</h4>
+<div class="flex items-center gap-md">
+<img id="agent-photo-sidebar" class="w-16 h-16 rounded-full object-cover" alt="공인중개사 신득주" src="agent.jpg">
+<div>
+<p class="font-bold text-ink">신득주</p>
+<p class="text-muted text-sm">왕가부동산 대표</p>
+</div>
+</div>
+</div>
+</div>
+</aside>
+</div>
+</main>
+<footer class="w-full mt-xxl bg-surface-container-highest pb-24 md:pb-0">
+<div class="max-w-7xl mx-auto px-lg py-xl flex flex-col md:flex-row justify-between items-start md:items-center">
+<div class="mb-lg md:mb-0">
+<div class="font-headline-section text-headline-section font-bold text-on-surface mb-md">왕가부동산 공인중개사사무소</div>
+<p class="font-body-main text-muted text-sm">대표자: 신득주 | 등록번호: 제12345-2024-00001호</p>
+<p class="font-body-main text-muted text-sm">주소: 경기도 하남시 미사강변대로 123 | T. 031-123-4567</p>
+<p class="font-body-main text-muted text-sm mt-md">© 2024 왕가부동산 공인중개사사무소. All rights reserved.</p>
+</div>
+<div class="flex flex-col md:items-end space-y-md">
+<nav class="flex space-x-lg">
+<a class="text-muted hover:text-ink transition-all font-body-main text-sm underline" href="#">이용약관</a>
+<a class="text-muted hover:text-ink transition-all font-body-main text-sm font-bold" href="#">개인정보처리방침</a>
+<a class="text-muted hover:text-ink transition-all font-body-main text-sm underline" href="admin.html" id="agent-login-btn">Agent Login</a>
+</nav>
+</div>
+</div>
+</footer>
+<nav class="fixed bottom-0 w-full z-50 bg-surface shadow-[0_-1px_3px_0_rgba(0,0,0,0.16)] flex justify-around items-center px-base py-sm md:hidden">
+<a href="index.html" class="flex flex-col items-center justify-center text-muted p-xs min-w-[44px] min-h-[44px] active:bg-surface-container-high transition-transform">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-muted text-label-muted mt-1">홈</span>
+</a>
+<a href="news.html" class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-xl p-xs min-w-[44px] min-h-[44px] active:bg-surface-container-high transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">newspaper</span>
+<span class="font-label-muted text-label-muted mt-1">뉴스</span>
+</a>
+<a href="tel:031-123-4567" class="flex flex-col items-center justify-center text-muted p-xs min-w-[44px] min-h-[44px] active:bg-surface-container-high transition-transform">
+<span class="material-symbols-outlined">call</span>
+<span class="font-label-muted text-label-muted mt-1">문의</span>
+</a>
+</nav>
+<script src="db.js"></script>
+<script>
+let _allPosts = [];
+let _activeCategory = '전체';
+
+function renderTabs(categories) {
+  const tabList = document.getElementById('tab-list');
+  const cats = ['전체'].concat(categories);
+  tabList.innerHTML = cats.map(function (cat) {
+    const cls = cat === _activeCategory ? 'active-tab' : 'text-muted hover:text-ink transition-all';
+    return '<button class="' + cls + ' px-md py-sm font-body-main" data-category="' + escapeHtml(cat) + '" style="min-height:44px;">' + escapeHtml(cat) + '</button>';
+  }).join('');
+  tabList.querySelectorAll('button').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      _activeCategory = btn.getAttribute('data-category');
+      renderTabs(categories);
+      applyFilters();
+    });
+  });
+}
+
+function applyFilters() {
+  const keyword = document.getElementById('search-input').value.trim().toLowerCase();
+  let filtered = _allPosts;
+  if (_activeCategory !== '전체') {
+    filtered = filtered.filter(function (p) { return p.category === _activeCategory; });
+  }
+  if (keyword) {
+    filtered = filtered.filter(function (p) {
+      return (p.title || '').toLowerCase().includes(keyword) || (p.category || '').toLowerCase().includes(keyword);
+    });
+  }
+  renderList(filtered);
+}
+
+function renderList(posts) {
+  const list = document.getElementById('news-list');
+  if (!posts.length) {
+    list.innerHTML = '<div class="p-xl text-center text-muted">등록된 게시글이 없습니다.</div>';
+    return;
+  }
+  list.innerHTML = posts.map(function (post) {
+    const summary = markdownToText(post.content || '').slice(0, 100);
+    return '<a href="news-detail.html?id=' + encodeURIComponent(post.id) + '" class="group block p-lg border-b border-divider hover:bg-surface transition-all cursor-pointer">' +
+      '<div class="flex justify-between items-start mb-xs gap-md">' +
+      '<span class="text-primary font-bold text-xs uppercase tracking-wider">' + escapeHtml(post.category || '') + '</span>' +
+      '<span class="font-label-muted text-label-muted text-muted shrink-0">' + escapeHtml(post.date || '') + '</span>' +
+      '</div>' +
+      '<h2 class="font-headline-section text-ink group-hover:text-primary transition-colors mb-sm">' + escapeHtml(post.title || '') + '</h2>' +
+      '<p class="font-body-main text-muted line-clamp-2">' + escapeHtml(summary) + (summary.length >= 100 ? '...' : '') + '</p>' +
+      '</a>';
+  }).join('');
+}
+
+(async function init() {
+  const list = document.getElementById('news-list');
+  try {
+    _allPosts = await getPosts();
+  } catch (e) {
+    list.innerHTML = '<div class="p-xl text-center text-error">게시글을 불러오지 못했습니다: ' + escapeHtml(e.message) + '</div>';
+    return;
+  }
+  const categories = Array.from(new Set(_allPosts.map(function (p) { return p.category; }).filter(Boolean)));
+  renderTabs(categories);
+  renderList(_allPosts);
+  document.getElementById('search-input').addEventListener('input', applyFilters);
+})();
+</script>
+</body>
+</html>

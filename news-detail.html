@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html class="light" lang="ko">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>게시글 상세 | 왕가부동산</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #fff8f1;
+            font-size: 15px;
+        }
+        a, button { min-height: 44px; }
+        #post-content h1, #post-content h2, #post-content h3 { font-weight: 700; color: #151515; margin: 1.2em 0 0.5em; }
+        #post-content h1 { font-size: 1.6em; }
+        #post-content h2 { font-size: 1.4em; }
+        #post-content h3 { font-size: 1.2em; }
+        #post-content p { margin: 0.8em 0; line-height: 1.7; }
+        #post-content ul, #post-content ol { margin: 0.8em 0; padding-left: 1.4em; }
+        #post-content ul { list-style: disc; }
+        #post-content ol { list-style: decimal; }
+        #post-content blockquote { border-left: 4px solid #ffcc00; padding-left: 1em; margin: 1em 0; color: #666; }
+        #post-content code { background: #f1e7d5; padding: 0.15em 0.4em; border-radius: 4px; font-size: 0.9em; }
+        #post-content pre { background: #1f1b10; color: #fff8f1; padding: 1em; border-radius: 8px; overflow-x: auto; margin: 1em 0; }
+        #post-content pre code { background: transparent; padding: 0; color: inherit; }
+        #post-content hr { border: none; border-top: 1px solid #d2c5ab; margin: 1.5em 0; }
+        #post-content a { color: #745b00; text-decoration: underline; }
+</style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-tint": "#FAEAAD", "surface": "#F9F9F9", "on-secondary": "#ffffff",
+                        "tertiary": "#006874", "primary-container": "#ffcc00", "background": "#fff8f1",
+                        "error": "#ba1a1a", "surface-container": "#f7eddb", "canvas": "#FFFFFF",
+                        "muted": "#666666", "ink": "#151515", "on-surface": "#1f1b10",
+                        "divider": "#AAAAAA", "primary": "#745b00", "on-primary": "#ffffff",
+                        "surface-container-highest": "#ebe1d0"
+                    },
+                    "spacing": { "md": "16px", "xl": "32px", "section": "64px", "lg": "24px", "base": "20px", "sm": "8px", "xs": "4px", "xxl": "48px" },
+                    "fontFamily": { "body-main": ["Noto Sans KR"], "headline-section": ["Plus Jakarta Sans"], "display-hero": ["Plus Jakarta Sans"] }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface">
+<header class="w-full sticky top-0 z-50 bg-surface border-b border-divider shadow-sm">
+<div class="max-w-3xl mx-auto px-lg flex justify-between items-center h-16">
+<a href="index.html" class="text-headline-section font-headline-section font-bold text-primary">왕가부동산</a>
+<a href="news.html" class="text-on-surface-variant hover:text-primary transition-colors font-body-main flex items-center gap-xs">
+<span class="material-symbols-outlined">arrow_back</span> 목록으로
+</a>
+</div>
+</header>
+<main class="max-w-3xl mx-auto px-lg py-section pb-24 md:pb-section">
+<div id="post-loading" class="text-center text-muted py-xxl">불러오는 중...</div>
+<article id="post-article" class="hidden bg-canvas rounded-xl shadow-sm border border-divider/20 p-lg md:p-xl">
+<span id="post-category" class="text-primary font-bold text-xs uppercase tracking-wider"></span>
+<h1 id="post-title" class="font-display-hero text-2xl md:text-display-hero text-ink mt-sm mb-sm"></h1>
+<p id="post-date" class="text-muted text-sm mb-lg"></p>
+<div id="post-content"></div>
+<div id="admin-actions" class="hidden mt-xl pt-lg border-t border-divider flex gap-md">
+<a id="edit-btn" class="px-lg py-md rounded-lg bg-primary-container text-on-surface font-bold flex items-center justify-center" href="#">수정</a>
+<button id="delete-btn" class="px-lg py-md rounded-lg bg-error text-white font-bold">삭제</button>
+</div>
+</article>
+</main>
+<script src="db.js"></script>
+<script>
+function getIdFromUrl() {
+  return new URLSearchParams(window.location.search).get('id');
+}
+
+(async function init() {
+  const id = getIdFromUrl();
+  const loading = document.getElementById('post-loading');
+  const article = document.getElementById('post-article');
+  if (!id) {
+    loading.textContent = '게시글을 찾을 수 없습니다.';
+    return;
+  }
+  try {
+    const post = await getPost(id);
+    if (!post) {
+      loading.textContent = '게시글을 찾을 수 없습니다.';
+      return;
+    }
+    document.getElementById('post-category').textContent = post.category || '';
+    document.getElementById('post-title').textContent = post.title || '';
+    document.getElementById('post-date').textContent = post.date || '';
+    document.getElementById('post-content').innerHTML = renderMarkdown(post.content || '');
+
+    if (isAdmin()) {
+      document.getElementById('admin-actions').classList.remove('hidden');
+      document.getElementById('edit-btn').href = 'news-write.html?id=' + encodeURIComponent(post.id);
+      document.getElementById('delete-btn').addEventListener('click', async function () {
+        if (!confirm('정말 삭제하시겠습니까?')) return;
+        try {
+          await deletePost(post.id);
+          window.location.href = 'news.html';
+        } catch (e) {
+          alert('삭제 실패: ' + e.message);
+        }
+      });
+    }
+
+    loading.classList.add('hidden');
+    article.classList.remove('hidden');
+  } catch (e) {
+    loading.textContent = '게시글을 불러오지 못했습니다: ' + e.message;
+  }
+})();
+</script>
+</body>
+</html>
