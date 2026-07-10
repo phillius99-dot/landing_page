@@ -115,6 +115,45 @@ async function writePostsFile(posts, sha, message) {
   return writeJsonFile(path, posts, sha, message || 'chore: update posts.json');
 }
 
+async function ghInfoProperties() {
+  const config = await loadConfig();
+  return {
+    token: String(config.github_token || '').replace(/\s+/g, ''),
+    owner: config.github_owner,
+    repo: config.github_repo,
+    path: config.properties_file_path || 'data/properties.json'
+  };
+}
+
+async function fetchPropertiesFile() {
+  const { token, owner, repo, path } = await ghInfoProperties();
+  if (!token || !owner || !repo) {
+    throw new Error('GitHub 설정이 올바르지 않습니다. (토큰/저장소 정보를 확인해주세요)');
+  }
+  const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+  const res = await fetch(url, {
+    headers: {
+      'Authorization': 'token ' + token,
+      'Accept': 'application/vnd.github+json'
+    }
+  });
+  if (!res.ok) {
+    throw new Error(`매물 조회 실패: ${res.status}`);
+  }
+  const data = await res.json();
+  const text = base64ToUtf8(data.content);
+  let properties = [];
+  try { properties = JSON.parse(text || '[]'); } catch (e) { properties = []; }
+  return { properties, sha: data.sha };
+}
+
+async function getProperties() {
+  const { properties } = await fetchPropertiesFile();
+  return properties.slice().sort(function (a, b) {
+    return String(b.id || '').localeCompare(String(a.id || ''));
+  });
+}
+
 async function getPosts() {
   const { posts } = await fetchPostsFile();
   return posts.slice().sort(function (a, b) {

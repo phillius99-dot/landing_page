@@ -2,5 +2,6 @@
   "github_token": "YOUR_GITHUB_TOKEN",
   "github_owner": "phillius99-dot",
   "github_repo": "landing_page",
-  "data_file_path": "data/posts.json"
+  "data_file_path": "data/posts.json",
+  "properties_file_path": "data/properties.json"
 }
