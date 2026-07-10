@@ -68,12 +68,17 @@
 </div>
 </div>
 <div id="dashboard-view" class="hidden">
-<div class="flex flex-col sm:flex-row justify-between sm:items-center gap-md mb-xl">
-<h1 class="font-headline-section text-2xl font-bold text-ink">게시글 관리</h1>
-<div class="flex gap-md">
-<a href="news-write.html" class="px-lg py-md rounded-lg bg-primary-container text-on-surface font-bold flex items-center justify-center">새 글 작성</a>
+<div class="flex flex-col sm:flex-row justify-between sm:items-center gap-md mb-lg">
+<h1 class="font-headline-section text-2xl font-bold text-ink">관리자 대시보드</h1>
 <button id="logout-btn" class="px-lg py-md rounded-lg border border-divider text-ink font-bold">로그아웃</button>
 </div>
+<div class="flex gap-sm mb-lg border-b border-divider">
+<button id="tab-posts-btn" class="px-lg py-md font-bold text-primary border-b-2 border-primary">게시글 관리</button>
+<button id="tab-listings-btn" class="px-lg py-md font-bold text-muted">매물 접수 관리</button>
+</div>
+<div id="posts-view">
+<div class="flex justify-end mb-md">
+<a href="news-write.html" class="px-lg py-md rounded-lg bg-primary-container text-on-surface font-bold flex items-center justify-center">새 글 작성</a>
 </div>
 <div class="bg-canvas rounded-xl shadow-sm border border-divider/20 p-md md:p-lg overflow-x-auto">
 <table>
@@ -83,6 +88,18 @@
 <tbody id="post-table-body"></tbody>
 </table>
 <div id="empty-message" class="hidden text-center text-muted py-xl">작성된 게시글이 없습니다.</div>
+</div>
+</div>
+<div id="listings-view" class="hidden">
+<div class="bg-canvas rounded-xl shadow-sm border border-divider/20 p-md md:p-lg overflow-x-auto">
+<table>
+<thead>
+<tr><th>접수일</th><th>이름</th><th>연락처</th><th>매물종류</th><th>거래유형</th><th>주소</th><th>희망가</th><th>메모</th><th>관리</th></tr>
+</thead>
+<tbody id="listing-table-body"></tbody>
+</table>
+<div id="listing-empty-message" class="hidden text-center text-muted py-xl">접수된 매물이 없습니다.</div>
+</div>
 </div>
 </div>
 </main>
@@ -98,6 +115,72 @@ async function showDashboard() {
   document.getElementById('dashboard-view').classList.remove('hidden');
   await loadPosts();
 }
+
+function showPostsTab() {
+  document.getElementById('posts-view').classList.remove('hidden');
+  document.getElementById('listings-view').classList.add('hidden');
+  document.getElementById('tab-posts-btn').classList.add('text-primary', 'border-b-2', 'border-primary');
+  document.getElementById('tab-posts-btn').classList.remove('text-muted');
+  document.getElementById('tab-listings-btn').classList.remove('text-primary', 'border-b-2', 'border-primary');
+  document.getElementById('tab-listings-btn').classList.add('text-muted');
+}
+
+async function showListingsTab() {
+  document.getElementById('listings-view').classList.remove('hidden');
+  document.getElementById('posts-view').classList.add('hidden');
+  document.getElementById('tab-listings-btn').classList.add('text-primary', 'border-b-2', 'border-primary');
+  document.getElementById('tab-listings-btn').classList.remove('text-muted');
+  document.getElementById('tab-posts-btn').classList.remove('text-primary', 'border-b-2', 'border-primary');
+  document.getElementById('tab-posts-btn').classList.add('text-muted');
+  await loadListings();
+}
+
+async function loadListings() {
+  const tbody = document.getElementById('listing-table-body');
+  const emptyMsg = document.getElementById('listing-empty-message');
+  tbody.innerHTML = '<tr><td colspan="9" class="text-center text-muted">불러오는 중...</td></tr>';
+  try {
+    const listings = await getListings();
+    if (!listings.length) {
+      tbody.innerHTML = '';
+      emptyMsg.classList.remove('hidden');
+      return;
+    }
+    emptyMsg.classList.add('hidden');
+    tbody.innerHTML = listings.map(function (item) {
+      const receivedDate = item.receivedAt ? String(item.receivedAt).slice(0, 10) : '';
+      return '<tr>' +
+        '<td data-label="접수일">' + escapeHtml(receivedDate) + '</td>' +
+        '<td data-label="이름">' + escapeHtml(item.name || '') + '</td>' +
+        '<td data-label="연락처"><a class="text-primary underline" href="tel:' + escapeHtml(item.phone || '') + '">' + escapeHtml(item.phone || '') + '</a></td>' +
+        '<td data-label="매물종류">' + escapeHtml(item.propertyType || '') + '</td>' +
+        '<td data-label="거래유형">' + escapeHtml(item.dealType || '') + '</td>' +
+        '<td data-label="주소">' + escapeHtml(item.address || '') + '</td>' +
+        '<td data-label="희망가">' + escapeHtml(item.price || '') + '</td>' +
+        '<td data-label="메모">' + escapeHtml(item.memo || '') + '</td>' +
+        '<td data-label="관리"><button data-id="' + escapeHtml(item.id) + '" data-name="' + escapeHtml(item.name || '') + '" class="delete-listing-btn px-md py-xs rounded bg-error text-white text-sm font-bold">삭제</button></td>' +
+        '</tr>';
+    }).join('');
+    tbody.querySelectorAll('.delete-listing-btn').forEach(function (btn) {
+      btn.addEventListener('click', async function () {
+        if (!confirm('"' + btn.getAttribute('data-name') + '" 님의 접수 내역을 삭제하시겠습니까?')) return;
+        btn.disabled = true;
+        try {
+          await deleteListing(btn.getAttribute('data-id'));
+          await loadListings();
+        } catch (e) {
+          alert('삭제 실패: ' + e.message);
+          btn.disabled = false;
+        }
+      });
+    });
+  } catch (e) {
+    tbody.innerHTML = '<tr><td colspan="9" class="text-center text-error">접수 내역을 불러오지 못했습니다: ' + escapeHtml(e.message) + '</td></tr>';
+  }
+}
+
+document.getElementById('tab-posts-btn').addEventListener('click', showPostsTab);
+document.getElementById('tab-listings-btn').addEventListener('click', showListingsTab);
 
 async function loadPosts() {
   const tbody = document.getElementById('post-table-body');

@@ -41,18 +41,20 @@ function utf8ToBase64(str) {
   return btoa(binary);
 }
 
-async function ghInfo() {
+const LISTINGS_PATH = 'data/listings.json';
+
+async function ghInfo(path) {
   const config = await loadConfig();
   return {
     token: String(config.github_token || '').replace(/\s+/g, ''),
     owner: config.github_owner,
     repo: config.github_repo,
-    path: config.data_file_path
+    path: path || config.data_file_path
   };
 }
 
-async function fetchPostsFile() {
-  const { token, owner, repo, path } = await ghInfo();
+async function fetchJsonFile(path) {
+  const { token, owner, repo } = await ghInfo(path);
   if (!token || !owner || !repo) {
     throw new Error('GitHub 설정이 올바르지 않습니다. (토큰/저장소 정보를 확인해주세요)');
   }
@@ -63,18 +65,21 @@ async function fetchPostsFile() {
       'Accept': 'application/vnd.github+json'
     }
   });
+  if (res.status === 404) {
+    return { items: [], sha: undefined };
+  }
   if (!res.ok) {
-    throw new Error(`게시글 조회 실패: ${res.status}`);
+    throw new Error(`조회 실패: ${res.status}`);
   }
   const data = await res.json();
   const text = base64ToUtf8(data.content);
-  let posts = [];
-  try { posts = JSON.parse(text || '[]'); } catch (e) { posts = []; }
-  return { posts, sha: data.sha };
+  let items = [];
+  try { items = JSON.parse(text || '[]'); } catch (e) { items = []; }
+  return { items, sha: data.sha };
 }
 
-async function writePostsFile(posts, sha, message) {
-  const { token, owner, repo, path } = await ghInfo();
+async function writeJsonFile(path, items, sha, message) {
+  const { token, owner, repo } = await ghInfo(path);
   if (!token || !owner || !repo) {
     throw new Error('GitHub 설정이 올바르지 않습니다. (토큰/저장소 정보를 확인해주세요)');
   }
@@ -87,8 +92,8 @@ async function writePostsFile(posts, sha, message) {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      message: message || 'chore: update posts.json',
-      content: utf8ToBase64(JSON.stringify(posts, null, 2)),
+      message: message || `chore: update ${path}`,
+      content: utf8ToBase64(JSON.stringify(items, null, 2)),
       sha
     })
   });
@@ -97,6 +102,17 @@ async function writePostsFile(posts, sha, message) {
     throw new Error(`저장 실패: ${res.status} ${errText}`);
   }
   return res.json();
+}
+
+async function fetchPostsFile() {
+  const { path } = await ghInfo();
+  const { items, sha } = await fetchJsonFile(path);
+  return { posts: items, sha };
+}
+
+async function writePostsFile(posts, sha, message) {
+  const { path } = await ghInfo();
+  return writeJsonFile(path, posts, sha, message || 'chore: update posts.json');
 }
 
 async function getPosts() {
@@ -138,6 +154,20 @@ async function deletePost(id) {
   const { posts, sha } = await fetchPostsFile();
   const filtered = posts.filter(function (p) { return String(p.id) !== String(id); });
   await writePostsFile(filtered, sha, `chore: delete post ${id}`);
+  return true;
+}
+
+async function getListings() {
+  const { items } = await fetchJsonFile(LISTINGS_PATH);
+  return items.slice().sort(function (a, b) {
+    return String(b.receivedAt || '').localeCompare(String(a.receivedAt || ''));
+  });
+}
+
+async function deleteListing(id) {
+  const { items, sha } = await fetchJsonFile(LISTINGS_PATH);
+  const filtered = items.filter(function (item) { return String(item.id) !== String(id); });
+  await writeJsonFile(LISTINGS_PATH, filtered, sha, `chore: delete listing ${id}`);
   return true;
 }
 

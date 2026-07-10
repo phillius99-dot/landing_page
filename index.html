@@ -318,46 +318,6 @@
 </div>
 </div>
 </section>
-<section class="bg-white py-section">
-<div class="max-w-7xl mx-auto px-lg">
-<h2 class="font-headline-section text-headline-section text-ink text-center mb-xl">고객님들이 전하는 왕가부동산 이야기</h2>
-<div class="grid grid-cols-1 md:grid-cols-3 gap-lg">
-<div class="bg-white p-lg rounded-2xl shadow-[0_1px_3px_0_rgba(0,0,0,0.16)] flex flex-col gap-md">
-<div class="flex text-primary-container">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-</div>
-<p class="text-body-main text-muted leading-relaxed">"미사역 근처 아파트를 찾던 중 신득주 소장님을 만났습니다. 지역 정보에 정말 밝으시고, 저희 가족 상황에 딱 맞는 매물을 추천해 주셔서 만족스럽게 입주했습니다."</p>
-<p class="text-sm font-bold text-ink">이지은 님</p>
-</div>
-<div class="bg-white p-lg rounded-2xl shadow-[0_1px_3px_0_rgba(0,0,0,0.16)] flex flex-col gap-md">
-<div class="flex text-primary-container">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-</div>
-<p class="text-body-main text-muted leading-relaxed">"상가 투자는 처음이라 걱정이 많았는데, 복잡한 권리 관계를 알기 쉽게 설명해 주시고 수익률 분석까지 꼼꼼히 해주셔서 믿고 계약할 수 있었습니다."</p>
-<p class="text-sm font-bold text-ink">박민준 님</p>
-</div>
-<div class="bg-white p-lg rounded-2xl shadow-[0_1px_3px_0_rgba(0,0,0,0.16)] flex flex-col gap-md">
-<div class="flex text-primary-container">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-</div>
-<p class="text-body-main text-muted leading-relaxed">"전세 계약할 때 보증금 문제로 불안했는데, 공인중개사님이 직접 꼼꼼하게 서류 체크해 주시고 안심할 수 있도록 끝까지 챙겨주셔서 정말 감사했습니다."</p>
-<p class="text-sm font-bold text-ink">김순희 님</p>
-</div>
-</div>
-</div>
-</section>
 <section id="board-preview-section" class="py-section max-w-7xl mx-auto px-lg">
 <div class="flex flex-col sm:flex-row justify-between sm:items-end gap-md mb-xl">
 <div>
@@ -375,11 +335,67 @@
 <div class="absolute -right-16 -bottom-16 w-64 h-64 bg-primary/20 rounded-full blur-3xl"></div>
 <h3 class="text-2xl font-bold mb-md relative z-10">매물을 내놓고 싶으신가요?</h3>
 <p class="opacity-80 mb-xl relative z-10">빠른 거래와 제값을 받는 중개를 약속합니다. 지금 바로 온라인 매물 접수를 이용해 보세요.</p>
-<button class="w-full md:w-fit bg-primary-container text-on-primary-container px-lg py-md rounded-xl font-bold hover:scale-105 transition-transform relative z-10">
+<button id="listing-open-btn" type="button" class="w-full md:w-fit bg-primary-container text-on-primary-container px-lg py-md rounded-xl font-bold hover:scale-105 transition-transform relative z-10">
                         온라인 매물 접수하기
                     </button>
 </div>
 </section>
+<div id="listing-modal" class="hidden fixed inset-0 z-[60] flex items-center justify-center p-lg bg-ink/60">
+<div class="w-full max-w-lg max-h-[90vh] overflow-y-auto bg-white rounded-2xl p-xl relative">
+<button id="listing-close-btn" type="button" aria-label="닫기" class="absolute top-md right-md text-muted hover:text-ink">
+<span class="material-symbols-outlined">close</span>
+</button>
+<h3 class="font-headline-section text-headline-section font-bold text-ink mb-xs">온라인 매물 접수</h3>
+<p class="text-muted text-sm mb-lg">아래 정보를 남겨주시면 담당자가 빠르게 연락드립니다.</p>
+<form id="listing-form" class="flex flex-col gap-md">
+<div>
+<label class="block font-bold text-ink text-sm mb-xs" for="listing-name">이름 *</label>
+<input id="listing-name" name="name" type="text" required class="w-full px-md py-sm rounded-lg border border-divider focus:outline-none focus:ring-2 focus:ring-primary">
+</div>
+<div>
+<label class="block font-bold text-ink text-sm mb-xs" for="listing-phone">연락처 *</label>
+<input id="listing-phone" name="phone" type="tel" required placeholder="010-0000-0000" class="w-full px-md py-sm rounded-lg border border-divider focus:outline-none focus:ring-2 focus:ring-primary">
+</div>
+<div class="grid grid-cols-2 gap-md">
+<div>
+<label class="block font-bold text-ink text-sm mb-xs" for="listing-type">매물 종류 *</label>
+<select id="listing-type" name="propertyType" required class="w-full px-md py-sm rounded-lg border border-divider focus:outline-none focus:ring-2 focus:ring-primary">
+<option value="아파트">아파트</option>
+<option value="오피스텔">오피스텔</option>
+<option value="상가">상가</option>
+<option value="아파트형공장">아파트형공장</option>
+<option value="기타">기타</option>
+</select>
+</div>
+<div>
+<label class="block font-bold text-ink text-sm mb-xs" for="listing-deal">거래 유형 *</label>
+<select id="listing-deal" name="dealType" required class="w-full px-md py-sm rounded-lg border border-divider focus:outline-none focus:ring-2 focus:ring-primary">
+<option value="매매">매매</option>
+<option value="전세">전세</option>
+<option value="월세">월세</option>
+</select>
+</div>
+</div>
+<div>
+<label class="block font-bold text-ink text-sm mb-xs" for="listing-address">매물 주소/위치 *</label>
+<input id="listing-address" name="address" type="text" required placeholder="예: 하남시 망월동 미사강변 OO" class="w-full px-md py-sm rounded-lg border border-divider focus:outline-none focus:ring-2 focus:ring-primary">
+</div>
+<div>
+<label class="block font-bold text-ink text-sm mb-xs" for="listing-price">희망 가격</label>
+<input id="listing-price" name="price" type="text" placeholder="예: 7억 8,000 / 협의 가능" class="w-full px-md py-sm rounded-lg border border-divider focus:outline-none focus:ring-2 focus:ring-primary">
+</div>
+<div>
+<label class="block font-bold text-ink text-sm mb-xs" for="listing-memo">상세 내용</label>
+<textarea id="listing-memo" name="memo" rows="4" placeholder="평형, 층수, 입주 가능 시기 등 참고할 내용을 남겨주세요." class="w-full px-md py-sm rounded-lg border border-divider focus:outline-none focus:ring-2 focus:ring-primary"></textarea>
+</div>
+<div id="listing-error" class="hidden text-error text-sm"></div>
+<div id="listing-success" class="hidden text-primary text-sm font-bold">접수가 완료되었습니다. 빠른 시일 내에 연락드리겠습니다.</div>
+<button id="listing-submit-btn" type="submit" class="w-full bg-primary-container text-on-primary-container px-lg py-md rounded-xl font-bold hover:scale-[1.02] transition-transform">
+                    접수하기
+                </button>
+</form>
+</div>
+</div>
 </main>
 <footer class="w-full mt-xxl bg-surface-container-highest pb-24 md:pb-0">
 <div class="max-w-7xl mx-auto px-lg py-xl flex flex-col md:flex-row justify-between border-t border-divider/30">
@@ -451,6 +467,70 @@
   } catch (e) {
     section.style.display = 'none';
   }
+})();
+
+(function listingModal() {
+  const modal = document.getElementById('listing-modal');
+  const openBtn = document.getElementById('listing-open-btn');
+  const closeBtn = document.getElementById('listing-close-btn');
+  const form = document.getElementById('listing-form');
+  const submitBtn = document.getElementById('listing-submit-btn');
+  const errorEl = document.getElementById('listing-error');
+  const successEl = document.getElementById('listing-success');
+
+  function openModal() {
+    errorEl.classList.add('hidden');
+    successEl.classList.add('hidden');
+    form.classList.remove('hidden');
+    submitBtn.classList.remove('hidden');
+    form.reset();
+    modal.classList.remove('hidden');
+  }
+  function closeModal() {
+    modal.classList.add('hidden');
+  }
+
+  openBtn.addEventListener('click', openModal);
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', function (e) {
+    if (e.target === modal) closeModal();
+  });
+
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    errorEl.classList.add('hidden');
+    submitBtn.disabled = true;
+    submitBtn.textContent = '접수 중...';
+    try {
+      const payload = {
+        name: document.getElementById('listing-name').value.trim(),
+        phone: document.getElementById('listing-phone').value.trim(),
+        propertyType: document.getElementById('listing-type').value,
+        dealType: document.getElementById('listing-deal').value,
+        address: document.getElementById('listing-address').value.trim(),
+        price: document.getElementById('listing-price').value.trim(),
+        memo: document.getElementById('listing-memo').value.trim()
+      };
+      const res = await fetch('/api/submit-listing', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const result = await res.json().catch(function () { return {}; });
+      if (!res.ok || !result.ok) {
+        throw new Error(result.error || '접수 중 오류가 발생했습니다.');
+      }
+      form.classList.add('hidden');
+      submitBtn.classList.add('hidden');
+      successEl.classList.remove('hidden');
+    } catch (err) {
+      errorEl.textContent = err.message || '접수 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.';
+      errorEl.classList.remove('hidden');
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = '접수하기';
+    }
+  });
 })();
 </script>
 </body>
