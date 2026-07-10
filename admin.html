@@ -84,6 +84,18 @@
 </table>
 <div id="empty-message" class="hidden text-center text-muted py-xl">작성된 게시글이 없습니다.</div>
 </div>
+<div class="flex justify-between items-center gap-md mt-xxl mb-xl">
+<h1 class="font-headline-section text-2xl font-bold text-ink">온라인 매물 접수</h1>
+</div>
+<div class="bg-canvas rounded-xl shadow-sm border border-divider/20 p-md md:p-lg overflow-x-auto">
+<table>
+<thead>
+<tr><th>접수일</th><th>이름</th><th>연락처</th><th>거래유형</th><th>주소</th><th>희망가격</th><th>문의내용</th><th>관리</th></tr>
+</thead>
+<tbody id="submission-table-body"></tbody>
+</table>
+<div id="submission-empty-message" class="hidden text-center text-muted py-xl">접수된 매물이 없습니다.</div>
+</div>
 </div>
 </main>
 <script src="db.js"></script>
@@ -97,6 +109,50 @@ async function showDashboard() {
   document.getElementById('login-view').classList.add('hidden');
   document.getElementById('dashboard-view').classList.remove('hidden');
   await loadPosts();
+  await loadSubmissions();
+}
+
+async function loadSubmissions() {
+  const tbody = document.getElementById('submission-table-body');
+  const emptyMsg = document.getElementById('submission-empty-message');
+  tbody.innerHTML = '<tr><td colspan="8" class="text-center text-muted">불러오는 중...</td></tr>';
+  try {
+    const submissions = await getSubmissions();
+    if (!submissions.length) {
+      tbody.innerHTML = '';
+      emptyMsg.classList.remove('hidden');
+      return;
+    }
+    emptyMsg.classList.add('hidden');
+    tbody.innerHTML = submissions.map(function (s) {
+      const date = s.created_at ? new Date(s.created_at).toLocaleString('ko-KR') : '';
+      return '<tr>' +
+        '<td data-label="접수일">' + escapeHtml(date) + '</td>' +
+        '<td data-label="이름">' + escapeHtml(s.name || '') + '</td>' +
+        '<td data-label="연락처">' + escapeHtml(s.phone || '') + '</td>' +
+        '<td data-label="거래유형">' + escapeHtml(s.trade_type || '') + '</td>' +
+        '<td data-label="주소">' + escapeHtml(s.address || '') + '</td>' +
+        '<td data-label="희망가격">' + escapeHtml(s.price || '') + '</td>' +
+        '<td data-label="문의내용">' + escapeHtml(s.memo || '') + '</td>' +
+        '<td data-label="관리"><button data-id="' + escapeHtml(s.id) + '" class="delete-submission-btn px-md py-xs rounded bg-error text-white text-sm font-bold">삭제</button></td>' +
+        '</tr>';
+    }).join('');
+    tbody.querySelectorAll('.delete-submission-btn').forEach(function (btn) {
+      btn.addEventListener('click', async function () {
+        if (!confirm('이 접수 내역을 삭제하시겠습니까?')) return;
+        btn.disabled = true;
+        try {
+          await deleteSubmission(btn.getAttribute('data-id'));
+          await loadSubmissions();
+        } catch (e) {
+          alert('삭제 실패: ' + e.message);
+          btn.disabled = false;
+        }
+      });
+    });
+  } catch (e) {
+    tbody.innerHTML = '<tr><td colspan="8" class="text-center text-error">접수 목록을 불러오지 못했습니다: ' + escapeHtml(e.message) + '</td></tr>';
+  }
 }
 
 async function loadPosts() {

@@ -180,6 +180,81 @@ async function deletePost(id) {
   return true;
 }
 
+async function ghInfoSubmissions() {
+  const config = await loadConfig();
+  return {
+    token: String(config.github_token || '').replace(/\s+/g, ''),
+    owner: config.github_owner,
+    repo: config.github_repo,
+    path: 'data/property_submissions.json'
+  };
+}
+
+async function fetchSubmissionsFile() {
+  const { token, owner, repo, path } = await ghInfoSubmissions();
+  if (!token || !owner || !repo) {
+    throw new Error('GitHub 설정이 올바르지 않습니다. (토큰/저장소 정보를 확인해주세요)');
+  }
+  const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+  const res = await fetch(url, {
+    headers: {
+      'Authorization': 'token ' + token,
+      'Accept': 'application/vnd.github+json'
+    }
+  });
+  if (res.status === 404) {
+    return { submissions: [], sha: undefined };
+  }
+  if (!res.ok) {
+    throw new Error(`접수 목록 조회 실패: ${res.status}`);
+  }
+  const data = await res.json();
+  const text = base64ToUtf8(data.content);
+  let submissions = [];
+  try { submissions = JSON.parse(text || '[]'); } catch (e) { submissions = []; }
+  return { submissions, sha: data.sha };
+}
+
+async function writeSubmissionsFile(submissions, sha, message) {
+  const { token, owner, repo, path } = await ghInfoSubmissions();
+  if (!token || !owner || !repo) {
+    throw new Error('GitHub 설정이 올바르지 않습니다. (토큰/저장소 정보를 확인해주세요)');
+  }
+  const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+  const res = await fetch(url, {
+    method: 'PUT',
+    headers: {
+      'Authorization': 'token ' + token,
+      'Accept': 'application/vnd.github+json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      message: message || 'chore: update property_submissions.json',
+      content: utf8ToBase64(JSON.stringify(submissions, null, 2)),
+      sha
+    })
+  });
+  if (!res.ok) {
+    const errText = await res.text().catch(function () { return ''; });
+    throw new Error(`저장 실패: ${res.status} ${errText}`);
+  }
+  return res.json();
+}
+
+async function getSubmissions() {
+  const { submissions } = await fetchSubmissionsFile();
+  return submissions.slice().sort(function (a, b) {
+    return String(b.id || '').localeCompare(String(a.id || ''));
+  });
+}
+
+async function deleteSubmission(id) {
+  const { submissions, sha } = await fetchSubmissionsFile();
+  const filtered = submissions.filter(function (s) { return String(s.id) !== String(id); });
+  await writeSubmissionsFile(filtered, sha, `chore: remove submission ${id}`);
+  return true;
+}
+
 function escapeHtml(str) {
   return String(str)
     .replace(/&/g, '&amp;')

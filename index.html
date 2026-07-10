@@ -312,12 +312,57 @@
 <div class="absolute -right-16 -bottom-16 w-64 h-64 bg-primary/20 rounded-full blur-3xl"></div>
 <h3 class="text-2xl font-bold mb-md relative z-10">매물을 내놓고 싶으신가요?</h3>
 <p class="opacity-80 mb-xl relative z-10">빠른 거래와 제값을 받는 중개를 약속합니다. 지금 바로 온라인 매물 접수를 이용해 보세요.</p>
-<button class="w-full md:w-fit bg-primary-container text-on-primary-container px-lg py-md rounded-xl font-bold hover:scale-105 transition-transform relative z-10">
+<button id="property-submit-btn" class="w-full md:w-fit bg-primary-container text-on-primary-container px-lg py-md rounded-xl font-bold hover:scale-105 transition-transform relative z-10">
                         온라인 매물 접수하기
                     </button>
 </div>
 </section>
 </main>
+<div id="property-submit-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-md">
+<div id="property-submit-backdrop" class="absolute inset-0 bg-ink/60"></div>
+<div class="relative bg-white w-full max-w-md rounded-2xl shadow-lg p-xl max-h-[90vh] overflow-y-auto">
+<div class="flex justify-between items-center mb-lg">
+<h3 class="text-xl font-bold text-ink">온라인 매물 접수</h3>
+<button id="property-submit-close" type="button" class="text-muted hover:text-ink" aria-label="닫기">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<form id="property-submit-form" class="flex flex-col gap-md">
+<div>
+<label class="block font-bold text-ink mb-xs text-sm" for="ps-name">이름 <span class="text-error">*</span></label>
+<input id="ps-name" name="name" type="text" required maxlength="50" class="w-full px-md py-sm rounded-lg border border-divider focus:outline-none focus:ring-2 focus:ring-primary">
+</div>
+<div>
+<label class="block font-bold text-ink mb-xs text-sm" for="ps-phone">연락처 <span class="text-error">*</span></label>
+<input id="ps-phone" name="phone" type="tel" required maxlength="30" placeholder="010-0000-0000" class="w-full px-md py-sm rounded-lg border border-divider focus:outline-none focus:ring-2 focus:ring-primary">
+</div>
+<div>
+<label class="block font-bold text-ink mb-xs text-sm" for="ps-trade-type">거래 유형</label>
+<select id="ps-trade-type" name="trade_type" class="w-full px-md py-sm rounded-lg border border-divider focus:outline-none focus:ring-2 focus:ring-primary">
+<option value="매매">매매</option>
+<option value="전세">전세</option>
+<option value="월세">월세</option>
+</select>
+</div>
+<div>
+<label class="block font-bold text-ink mb-xs text-sm" for="ps-address">매물 주소</label>
+<input id="ps-address" name="address" type="text" maxlength="200" class="w-full px-md py-sm rounded-lg border border-divider focus:outline-none focus:ring-2 focus:ring-primary">
+</div>
+<div>
+<label class="block font-bold text-ink mb-xs text-sm" for="ps-price">희망 가격</label>
+<input id="ps-price" name="price" type="text" maxlength="50" placeholder="예: 3억 5,000" class="w-full px-md py-sm rounded-lg border border-divider focus:outline-none focus:ring-2 focus:ring-primary">
+</div>
+<div>
+<label class="block font-bold text-ink mb-xs text-sm" for="ps-memo">문의 내용</label>
+<textarea id="ps-memo" name="memo" rows="3" maxlength="1000" class="w-full px-md py-sm rounded-lg border border-divider focus:outline-none focus:ring-2 focus:ring-primary"></textarea>
+</div>
+<div id="property-submit-error" class="hidden text-error text-sm"></div>
+<button id="property-submit-btn-confirm" type="submit" class="w-full bg-primary-container text-on-primary-container px-lg py-md rounded-xl font-bold">
+접수하기
+</button>
+</form>
+</div>
+</div>
 <footer class="w-full mt-xxl bg-surface-container-highest pb-24 md:pb-0">
 <div class="max-w-7xl mx-auto px-lg py-xl flex flex-col md:flex-row justify-between border-t border-divider/30">
 <div class="mb-xl md:mb-0">
@@ -431,6 +476,63 @@
   } catch (e) {
     section.style.display = 'none';
   }
+})();
+
+(function propertySubmitModal() {
+  const openBtn = document.getElementById('property-submit-btn');
+  const modal = document.getElementById('property-submit-modal');
+  const backdrop = document.getElementById('property-submit-backdrop');
+  const closeBtn = document.getElementById('property-submit-close');
+  const form = document.getElementById('property-submit-form');
+  const errorEl = document.getElementById('property-submit-error');
+  const confirmBtn = document.getElementById('property-submit-btn-confirm');
+
+  function openModal() {
+    modal.classList.remove('hidden');
+    errorEl.classList.add('hidden');
+  }
+  function closeModal() {
+    modal.classList.add('hidden');
+  }
+
+  openBtn.addEventListener('click', openModal);
+  closeBtn.addEventListener('click', closeModal);
+  backdrop.addEventListener('click', closeModal);
+
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    errorEl.classList.add('hidden');
+    const payload = {
+      name: document.getElementById('ps-name').value.trim(),
+      phone: document.getElementById('ps-phone').value.trim(),
+      trade_type: document.getElementById('ps-trade-type').value,
+      address: document.getElementById('ps-address').value.trim(),
+      price: document.getElementById('ps-price').value.trim(),
+      memo: document.getElementById('ps-memo').value.trim()
+    };
+    confirmBtn.disabled = true;
+    confirmBtn.textContent = '접수 중...';
+    try {
+      const res = await fetch('/api/submit-property', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const result = await res.json().catch(function () { return {}; });
+      if (!res.ok) {
+        throw new Error(result.error || '접수에 실패했습니다.');
+      }
+      form.reset();
+      closeModal();
+      alert('접수가 완료되었습니다. 담당자가 확인 후 연락드리겠습니다.');
+    } catch (err) {
+      errorEl.textContent = err.message || '접수 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.';
+      errorEl.classList.remove('hidden');
+    } finally {
+      confirmBtn.disabled = false;
+      confirmBtn.textContent = '접수하기';
+    }
+  });
 })();
 </script>
 </body>
