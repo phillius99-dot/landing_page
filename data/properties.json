@@ -1,16 +1,5 @@
 [
   {
-    "id": "1783649178170",
-    "article_no": "TEST001",
-    "title": "왕가아파트",
-    "trade_type": "매매",
-    "address": "강남구 역삼동",
-    "price": "9억 5,000",
-    "area_floor": "전용84㎡ / 중층",
-    "image_url": "https://landing-page-six-virid-72.vercel.app/images/properties/TEST001.png",
-    "post_id": "1783649173123"
-  },
-  {
     "id": "1783649762792",
     "article_no": "2636993702",
     "title": "미사엘큐브 1동",
