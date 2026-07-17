@@ -2,13 +2,15 @@
 // 새 게시글을 올린 후 이 스크립트를 실행하면 sitemap.xml이 data/posts.json 기준으로 다시 생성됩니다.
 // 사용법: node scripts/generate-sitemap.js
 
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 const SITE_URL = 'https://landing-page-six-virid-72.vercel.app';
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.join(__dirname, '..');
-const posts = require(path.join(rootDir, 'data', 'posts.json'));
+const posts = JSON.parse(fs.readFileSync(path.join(rootDir, 'data', 'posts.json'), 'utf8'));
 const today = new Date().toISOString().slice(0, 10);
 
 const urls = [
