@@ -41,20 +41,18 @@ function utf8ToBase64(str) {
   return btoa(binary);
 }
 
-const LISTINGS_PATH = 'data/listings.json';
-
-async function ghInfo(path) {
+async function ghInfo() {
   const config = await loadConfig();
   return {
     token: String(config.github_token || '').replace(/\s+/g, ''),
     owner: config.github_owner,
     repo: config.github_repo,
-    path: path || config.data_file_path
+    path: config.data_file_path
   };
 }
 
-async function fetchJsonFile(path) {
-  const { token, owner, repo } = await ghInfo(path);
+async function fetchPostsFile() {
+  const { token, owner, repo, path } = await ghInfo();
   if (!token || !owner || !repo) {
     throw new Error('GitHub 설정이 올바르지 않습니다. (토큰/저장소 정보를 확인해주세요)');
   }
@@ -65,21 +63,18 @@ async function fetchJsonFile(path) {
       'Accept': 'application/vnd.github+json'
     }
   });
-  if (res.status === 404) {
-    return { items: [], sha: undefined };
-  }
   if (!res.ok) {
-    throw new Error(`조회 실패: ${res.status}`);
+    throw new Error(`게시글 조회 실패: ${res.status}`);
   }
   const data = await res.json();
   const text = base64ToUtf8(data.content);
-  let items = [];
-  try { items = JSON.parse(text || '[]'); } catch (e) { items = []; }
-  return { items, sha: data.sha };
+  let posts = [];
+  try { posts = JSON.parse(text || '[]'); } catch (e) { posts = []; }
+  return { posts, sha: data.sha };
 }
 
-async function writeJsonFile(path, items, sha, message) {
-  const { token, owner, repo } = await ghInfo(path);
+async function writePostsFile(posts, sha, message) {
+  const { token, owner, repo, path } = await ghInfo();
   if (!token || !owner || !repo) {
     throw new Error('GitHub 설정이 올바르지 않습니다. (토큰/저장소 정보를 확인해주세요)');
   }
@@ -92,8 +87,8 @@ async function writeJsonFile(path, items, sha, message) {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      message: message || `chore: update ${path}`,
-      content: utf8ToBase64(JSON.stringify(items, null, 2)),
+      message: message || 'chore: update posts.json',
+      content: utf8ToBase64(JSON.stringify(posts, null, 2)),
       sha
     })
   });
@@ -102,17 +97,6 @@ async function writeJsonFile(path, items, sha, message) {
     throw new Error(`저장 실패: ${res.status} ${errText}`);
   }
   return res.json();
-}
-
-async function fetchPostsFile() {
-  const { path } = await ghInfo();
-  const { items, sha } = await fetchJsonFile(path);
-  return { posts: items, sha };
-}
-
-async function writePostsFile(posts, sha, message) {
-  const { path } = await ghInfo();
-  return writeJsonFile(path, posts, sha, message || 'chore: update posts.json');
 }
 
 async function ghInfoProperties() {
@@ -196,17 +180,78 @@ async function deletePost(id) {
   return true;
 }
 
-async function getListings() {
-  const { items } = await fetchJsonFile(LISTINGS_PATH);
-  return items.slice().sort(function (a, b) {
-    return String(b.receivedAt || '').localeCompare(String(a.receivedAt || ''));
+async function ghInfoSubmissions() {
+  const config = await loadConfig();
+  return {
+    token: String(config.github_token || '').replace(/\s+/g, ''),
+    owner: config.github_owner,
+    repo: config.github_repo,
+    path: 'data/property_submissions.json'
+  };
+}
+
+async function fetchSubmissionsFile() {
+  const { token, owner, repo, path } = await ghInfoSubmissions();
+  if (!token || !owner || !repo) {
+    throw new Error('GitHub 설정이 올바르지 않습니다. (토큰/저장소 정보를 확인해주세요)');
+  }
+  const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+  const res = await fetch(url, {
+    headers: {
+      'Authorization': 'token ' + token,
+      'Accept': 'application/vnd.github+json'
+    }
+  });
+  if (res.status === 404) {
+    return { submissions: [], sha: undefined };
+  }
+  if (!res.ok) {
+    throw new Error(`접수 목록 조회 실패: ${res.status}`);
+  }
+  const data = await res.json();
+  const text = base64ToUtf8(data.content);
+  let submissions = [];
+  try { submissions = JSON.parse(text || '[]'); } catch (e) { submissions = []; }
+  return { submissions, sha: data.sha };
+}
+
+async function writeSubmissionsFile(submissions, sha, message) {
+  const { token, owner, repo, path } = await ghInfoSubmissions();
+  if (!token || !owner || !repo) {
+    throw new Error('GitHub 설정이 올바르지 않습니다. (토큰/저장소 정보를 확인해주세요)');
+  }
+  const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+  const res = await fetch(url, {
+    method: 'PUT',
+    headers: {
+      'Authorization': 'token ' + token,
+      'Accept': 'application/vnd.github+json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      message: message || 'chore: update property_submissions.json',
+      content: utf8ToBase64(JSON.stringify(submissions, null, 2)),
+      sha
+    })
+  });
+  if (!res.ok) {
+    const errText = await res.text().catch(function () { return ''; });
+    throw new Error(`저장 실패: ${res.status} ${errText}`);
+  }
+  return res.json();
+}
+
+async function getSubmissions() {
+  const { submissions } = await fetchSubmissionsFile();
+  return submissions.slice().sort(function (a, b) {
+    return String(b.id || '').localeCompare(String(a.id || ''));
   });
 }
 
-async function deleteListing(id) {
-  const { items, sha } = await fetchJsonFile(LISTINGS_PATH);
-  const filtered = items.filter(function (item) { return String(item.id) !== String(id); });
-  await writeJsonFile(LISTINGS_PATH, filtered, sha, `chore: delete listing ${id}`);
+async function deleteSubmission(id) {
+  const { submissions, sha } = await fetchSubmissionsFile();
+  const filtered = submissions.filter(function (s) { return String(s.id) !== String(id); });
+  await writeSubmissionsFile(filtered, sha, `chore: remove submission ${id}`);
   return true;
 }
 

@@ -5,7 +5,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const SITE_URL = 'https://landing-page.vercel.app'; // 실제 도메인이 정해지면 이 값을 변경하세요
+const SITE_URL = 'https://landing-page-six-virid-72.vercel.app';
 
 const rootDir = path.join(__dirname, '..');
 const posts = require(path.join(rootDir, 'data', 'posts.json'));

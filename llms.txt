@@ -11,8 +11,8 @@
 - 서비스 지역: 경기도 하남시 미사강변도시 일대 (아파트, 오피스텔, 상가, 아파트형공장)
 
 ## 주요 페이지
-- [홈](https://landing-page.vercel.app/): 사무소 소개, 추천 매물, 대표 프로필, 온라인 매물 접수
-- [부동산 뉴스](https://landing-page.vercel.app/news): 미사 지역 법원경매 낙찰 현황, 급매 매물, 시세 동향 게시판
+- [홈](https://landing-page-six-virid-72.vercel.app/): 사무소 소개, 추천 매물, 대표 프로필, 온라인 매물 접수
+- [부동산 뉴스](https://landing-page-six-virid-72.vercel.app/news): 미사 지역 법원경매 낙찰 현황, 급매 매물, 시세 동향 게시판
 
 ## 원본 데이터 (JS 렌더링 없이 전체 텍스트 확인용)
 뉴스/게시판 상세 페이지(/news-detail?id=...)는 자바스크립트로 내용을 렌더링합니다. 전체 원문을 그대로 읽으려면 아래 JSON 소스를 사용하세요.

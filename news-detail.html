@@ -5,12 +5,12 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
 <title>게시글 상세 | 왕가부동산</title>
 <meta id="meta-description" name="description" content="왕가부동산공인중개사사무소가 전하는 하남 미사강변도시 부동산 뉴스입니다."/>
-<link id="meta-canonical" rel="canonical" href="https://landing-page.vercel.app/news-detail"/>
+<link id="meta-canonical" rel="canonical" href="https://landing-page-six-virid-72.vercel.app/news-detail"/>
 <meta id="meta-og-title" property="og:type" content="article"/>
 <meta property="og:site_name" content="왕가부동산공인중개사사무소"/>
 <meta id="meta-og-headline" property="og:title" content="게시글 상세 | 왕가부동산"/>
 <meta id="meta-og-desc" property="og:description" content="왕가부동산공인중개사사무소가 전하는 하남 미사강변도시 부동산 뉴스입니다."/>
-<meta id="meta-og-url" property="og:url" content="https://landing-page.vercel.app/news-detail"/>
+<meta id="meta-og-url" property="og:url" content="https://landing-page-six-virid-72.vercel.app/news-detail"/>
 <meta property="og:locale" content="ko_KR"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
@@ -109,7 +109,7 @@ function getIdFromUrl() {
 
     const pageTitle = (post.title || '게시글') + ' | 왕가부동산';
     const pageDesc = markdownToText(post.content || '').slice(0, 120) || '왕가부동산공인중개사사무소가 전하는 하남 미사강변도시 부동산 뉴스입니다.';
-    const pageUrl = 'https://landing-page.vercel.app/news-detail?id=' + encodeURIComponent(post.id);
+    const pageUrl = 'https://landing-page-six-virid-72.vercel.app/news-detail?id=' + encodeURIComponent(post.id);
     document.title = pageTitle;
     document.getElementById('meta-description').setAttribute('content', pageDesc);
     document.getElementById('meta-canonical').setAttribute('href', pageUrl);

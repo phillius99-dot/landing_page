@@ -1,16 +1,5 @@
 [
   {
-    "id": "1783649178170",
-    "article_no": "TEST001",
-    "title": "왕가아파트",
-    "trade_type": "매매",
-    "address": "강남구 역삼동",
-    "price": "9억 5,000",
-    "area_floor": "전용84㎡ / 중층",
-    "image_url": "https://landing-page-six-virid-72.vercel.app/images/properties/TEST001.png",
-    "post_id": "1783649173123"
-  },
-  {
     "id": "1783649762792",
     "article_no": "2636993702",
     "title": "미사엘큐브 1동",
@@ -20,5 +9,16 @@
     "area_floor": "57A㎡ / 고층",
     "image_url": "https://landing-page-six-virid-72.vercel.app/images/properties/2636993702.png",
     "post_id": "1783646973677"
+  },
+  {
+    "id": "1784098517623",
+    "article_no": "2638174753",
+    "title": "망월동 일반상가",
+    "trade_type": "월세",
+    "address": "-",
+    "price": "1,500/100",
+    "area_floor": "계약106.36㎡ / 저층",
+    "image_url": "",
+    "post_id": "1784098515169"
   }
 ]

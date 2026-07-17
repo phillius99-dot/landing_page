@@ -6,4 +6,4 @@ Disallow: /news-write.html
 Disallow: /api/
 Disallow: /config/
 
-Sitemap: https://landing-page.vercel.app/sitemap.xml
+Sitemap: https://landing-page-six-virid-72.vercel.app/sitemap.xml
