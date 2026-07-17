@@ -4,6 +4,14 @@
 <meta charset="utf-8">
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
 <title>게시글 상세 | 왕가부동산</title>
+<meta id="meta-description" name="description" content="왕가부동산공인중개사사무소가 전하는 하남 미사강변도시 부동산 뉴스입니다."/>
+<link id="meta-canonical" rel="canonical" href="https://landing-page.vercel.app/news-detail"/>
+<meta id="meta-og-title" property="og:type" content="article"/>
+<meta property="og:site_name" content="왕가부동산공인중개사사무소"/>
+<meta id="meta-og-headline" property="og:title" content="게시글 상세 | 왕가부동산"/>
+<meta id="meta-og-desc" property="og:description" content="왕가부동산공인중개사사무소가 전하는 하남 미사강변도시 부동산 뉴스입니다."/>
+<meta id="meta-og-url" property="og:url" content="https://landing-page.vercel.app/news-detail"/>
+<meta property="og:locale" content="ko_KR"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -98,6 +106,30 @@ function getIdFromUrl() {
     document.getElementById('post-title').textContent = post.title || '';
     document.getElementById('post-date').textContent = post.date || '';
     document.getElementById('post-content').innerHTML = renderMarkdown(post.content || '');
+
+    const pageTitle = (post.title || '게시글') + ' | 왕가부동산';
+    const pageDesc = markdownToText(post.content || '').slice(0, 120) || '왕가부동산공인중개사사무소가 전하는 하남 미사강변도시 부동산 뉴스입니다.';
+    const pageUrl = 'https://landing-page.vercel.app/news-detail?id=' + encodeURIComponent(post.id);
+    document.title = pageTitle;
+    document.getElementById('meta-description').setAttribute('content', pageDesc);
+    document.getElementById('meta-canonical').setAttribute('href', pageUrl);
+    document.getElementById('meta-og-headline').setAttribute('content', pageTitle);
+    document.getElementById('meta-og-desc').setAttribute('content', pageDesc);
+    document.getElementById('meta-og-url').setAttribute('content', pageUrl);
+
+    const ld = document.createElement('script');
+    ld.type = 'application/ld+json';
+    ld.textContent = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'NewsArticle',
+      headline: post.title || '',
+      datePublished: post.date || '',
+      articleSection: post.category || '',
+      url: pageUrl,
+      author: { '@type': 'Organization', name: '왕가부동산공인중개사사무소' },
+      publisher: { '@type': 'Organization', name: '왕가부동산공인중개사사무소' }
+    });
+    document.head.appendChild(ld);
 
     if (isAdmin()) {
       document.getElementById('admin-actions').classList.remove('hidden');
