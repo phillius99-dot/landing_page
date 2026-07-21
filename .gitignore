@@ -1,3 +1,4 @@
 node_modules/
 .vercel/
 2019-10-31 18;09;21.PNG
+scripts/.env.local
