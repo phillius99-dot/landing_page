@@ -5,6 +5,10 @@
     {
       "path": "/api/cron/auction-post",
       "schedule": "0 10 * * 1"
+    },
+    {
+      "path": "/api/cron/tip-post",
+      "schedule": "30 0 * * *"
     }
   ]
 }
