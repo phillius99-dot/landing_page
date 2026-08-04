@@ -112,6 +112,7 @@ export default async function handler(req, res) {
 
     res.status(200).json({ posted: true, title: post.title, count: caseNos.length });
   } catch (err) {
-    res.status(500).json({ error: String(err && err.message ? err.message : err) });
+    const cause = err && err.cause ? String(err.cause.code || err.cause.message || err.cause) : undefined;
+    res.status(500).json({ error: String(err && err.message ? err.message : err), cause });
   }
 }
