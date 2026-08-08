@@ -1,270 +1,50 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>왕가부동산 | 매물 상담 신청</title>
-<style>
-  :root{
-    --navy:#0b1f3a;
-    --navy-deep:#081627;
-    --gold:#c9a24b;
-    --gold-light:#e6c878;
-    --cream:#faf6ec;
-    --text:#22282f;
-  }
-  *{box-sizing:border-box;}
-  body{
-    margin:0;
-    font-family:"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif;
-    background:linear-gradient(180deg,var(--navy) 0%, var(--navy-deep) 260px, var(--cream) 260px);
-    color:var(--text);
-    min-height:100vh;
-  }
-  .wrap{
-    max-width:480px;
-    margin:0 auto;
-    padding:0 20px 60px;
-  }
-  header{
-    text-align:center;
-    padding:36px 20px 24px;
-    color:var(--cream);
-  }
-  .crown{
-    width:44px;height:44px;margin:0 auto 10px;
-    border:2px solid var(--gold);
-    border-radius:50%;
-    display:flex;align-items:center;justify-content:center;
-  }
-  .crown svg{width:22px;height:22px;fill:var(--gold);}
-  header h1{
-    margin:0 0 4px;
-    font-size:20px;
-    letter-spacing:1px;
-    font-weight:700;
-  }
-  header p{
-    margin:0;
-    font-size:13px;
-    color:var(--gold-light);
-    letter-spacing:0.5px;
-  }
-  .card{
-    background:#fff;
-    border-radius:16px;
-    box-shadow:0 12px 30px rgba(11,31,58,0.18);
-    padding:28px 22px 26px;
-    margin-top:-40px;
-    position:relative;
-  }
-  .card h2{
-    font-size:17px;
-    margin:0 0 6px;
-    color:var(--navy);
-  }
-  .card .sub{
-    font-size:12.5px;
-    color:#8a8f98;
-    margin:0 0 22px;
-    line-height:1.5;
-  }
-  label{
-    display:block;
-    font-size:13px;
-    font-weight:600;
-    color:var(--navy);
-    margin:16px 0 6px;
-  }
-  label .req{color:#c0392b;margin-left:2px;}
-  input[type=text], input[type=tel], textarea{
-    width:100%;
-    padding:12px 13px;
-    border:1px solid #dfe3e8;
-    border-radius:9px;
-    font-size:14.5px;
-    font-family:inherit;
-    background:#fbfbfc;
-    outline:none;
-    transition:border-color .15s, background .15s;
-  }
-  input:focus, textarea:focus{
-    border-color:var(--gold);
-    background:#fff;
-  }
-  textarea{resize:vertical;min-height:80px;line-height:1.5;}
-  .consent{
-    margin-top:22px;
-    padding:13px 14px;
-    background:var(--cream);
-    border-radius:10px;
-    font-size:12px;
-    color:#5b6169;
-    line-height:1.6;
-  }
-  .consent label{
-    display:flex;
-    align-items:flex-start;
-    gap:8px;
-    font-weight:500;
-    color:var(--text);
-    font-size:12.5px;
-    margin:0 0 6px;
-    cursor:pointer;
-  }
-  .consent input[type=checkbox]{
-    margin-top:2px;
-    width:16px;height:16px;
-    accent-color:var(--navy);
-    flex-shrink:0;
-  }
-  .consent details{margin-top:2px;}
-  .consent summary{cursor:pointer;color:#8a8f98;font-size:11.5px;}
-  button{
-    width:100%;
-    margin-top:22px;
-    padding:15px;
-    border:none;
-    border-radius:10px;
-    background:var(--navy);
-    color:#fff;
-    font-size:15px;
-    font-weight:700;
-    letter-spacing:0.5px;
-    cursor:pointer;
-    transition:opacity .15s, transform .1s;
-  }
-  button:active{transform:scale(0.98);}
-  button:disabled{opacity:0.55;cursor:default;}
-  .msg{
-    margin-top:14px;
-    font-size:13px;
-    text-align:center;
-    display:none;
-    padding:10px;
-    border-radius:8px;
-  }
-  .msg.ok{display:block;background:#eef7ee;color:#2e7d32;}
-  .msg.err{display:block;background:#fdecea;color:#c0392b;}
-  footer{
-    text-align:center;
-    margin-top:22px;
-    font-size:11.5px;
-    color:#9aa0a8;
-    line-height:1.8;
-  }
-  footer b{color:var(--navy);}
-</style>
-</head>
-<body>
-<div class="wrap">
-  <header>
-    <div class="crown">
-      <svg viewBox="0 0 24 24"><path d="M2 18h20l-1.5-9-5 4L12 4 8.5 13l-5-4L2 18zm0 2h20v2H2v-2z"/></svg>
-    </div>
-    <h1>왕가부동산공인중개사사무소</h1>
-    <p>WANGGA REAL ESTATE</p>
-  </header>
+/**
+ * 왕가부동산 상담 신청 폼 → 구글 시트 자동 저장 스크립트
+ *
+ * [설치 방법]
+ * 1. 구글 스프레드시트를 새로 만듭니다. (예: "왕가부동산_상담신청")
+ * 2. 상단 메뉴 [확장 프로그램] > [Apps Script] 클릭
+ * 3. 기본 코드(Code.gs)를 모두 지우고 아래 코드를 붙여넣기
+ * 4. 상단 [배포] > [새 배포] 클릭
+ *    - 유형 선택: "웹 앱"
+ *    - 설명: 아무거나 입력
+ *    - 실행 계정: 나
+ *    - 액세스 권한: 전체 허용(모든 사용자) ← 반드시 이렇게 설정해야 폼에서 접근 가능
+ * 5. 배포 후 나오는 "웹 앱 URL"을 복사
+ * 6. contact.html 파일 안의 SCRIPT_URL = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE"
+ *    부분을 방금 복사한 URL로 교체
+ *
+ * 참고: 코드를 수정한 뒤에는 [배포] > [배포 관리] > 연필 아이콘 > "새 버전"으로
+ * 다시 배포해야 수정 사항이 반영됩니다.
+ */
 
-  <div class="card">
-    <h2>매물 상담 신청</h2>
-    <p class="sub">아래 정보를 남겨주시면 소장님이 확인 후 빠르게 연락드립니다.</p>
+function doPost(e) {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
 
-    <form id="inquiryForm">
-      <label>이름</label>
-      <input type="text" name="name" placeholder="홍길동" required>
+  // 첫 실행 시 헤더가 없으면 자동 생성
+  if (sheet.getLastRow() === 0) {
+    sheet.appendRow(['접수일시', '이름', '연락처', '보유 오피스텔', '보유 아파트', '문의 내용']);
+  }
 
-      <label>연락처<span class="req">*</span></label>
-      <input type="tel" name="phone" placeholder="010-1234-5678" required>
+  const data = JSON.parse(e.postData.contents);
 
-      <label>보유 오피스텔</label>
-      <input type="text" name="officetel" placeholder="예: 미사강변 ○○ 101동 1502호 / 없음">
+  const newRow = sheet.getLastRow() + 1;
 
-      <label>보유 아파트</label>
-      <input type="text" name="apartment" placeholder="예: ○○아파트 202동 803호 / 없음">
+  sheet.appendRow([
+    data.submittedAt || new Date().toLocaleString('ko-KR', {timeZone: 'Asia/Seoul'}),
+    data.name || '',
+    '',   // 연락처는 아래에서 텍스트 서식으로 별도 입력
+    data.officetel || '',
+    data.apartment || '',
+    data.message || ''
+  ]);
 
-      <label>문의 내용</label>
-      <textarea name="message" placeholder="궁금하신 내용이나 희망 사항을 자유롭게 남겨주세요."></textarea>
+  // 연락처(C열)는 반드시 "일반 텍스트" 서식으로 지정한 뒤 값을 넣어야
+  // 010-1234-5678의 앞자리 0이 사라지지 않습니다.
+  const phoneCell = sheet.getRange(newRow, 3);
+  phoneCell.setNumberFormat('@');
+  phoneCell.setValue(data.phone || '');
 
-      <div class="consent">
-        <label>
-          <input type="checkbox" id="agree" required>
-          <span>(필수) 개인정보 수집·이용에 동의합니다.</span>
-        </label>
-        <details>
-          <summary>수집 항목 및 이용 목적 보기</summary>
-          수집 항목: 이름, 연락처, 보유 부동산 정보, 문의 내용 · 이용 목적: 매물 상담 및 안내 · 보유 기간: 상담 완료 후 1년 또는 동의 철회 시까지 파기
-        </details>
-      </div>
-
-      <button type="submit" id="submitBtn">상담 신청하기</button>
-      <div class="msg" id="msgBox"></div>
-    </form>
-
-    <footer>
-      <b>왕가부동산공인중개사사무소</b><br>
-      신소장 · 010-3366-7187
-    </footer>
-  </div>
-</div>
-
-<script>
-  // ▼▼ 구글 시트와 연결된 Apps Script 웹앱 URL을 여기에 붙여넣으세요 ▼▼
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzsOoJcar2wKTVAU-aCTzDC85zaHzhNyexQg-je_9G_5wX_Wa-GpwysSZPnJ71NX99QgA/exec";
-
-  const form = document.getElementById('inquiryForm');
-  const btn = document.getElementById('submitBtn');
-  const msgBox = document.getElementById('msgBox');
-
-  form.addEventListener('submit', async function(e){
-    e.preventDefault();
-    msgBox.className = 'msg';
-    msgBox.style.display = 'none';
-
-    const phone = form.phone.value.trim();
-    const phonePattern = /^0\d{1,2}-?\d{3,4}-?\d{4}$/;
-    if(!phonePattern.test(phone)){
-      msgBox.textContent = '연락처 형식을 확인해 주세요. (예: 010-1234-5678)';
-      msgBox.className = 'msg err';
-      return;
-    }
-
-    if(SCRIPT_URL.includes('PASTE_YOUR')){
-      msgBox.textContent = '아직 저장소(구글 시트) 연결이 완료되지 않았습니다. 관리자에게 문의해주세요.';
-      msgBox.className = 'msg err';
-      return;
-    }
-
-    btn.disabled = true;
-    btn.textContent = '전송 중...';
-
-    const payload = {
-      name: form.name.value.trim(),
-      phone: phone,
-      officetel: form.officetel.value.trim(),
-      apartment: form.apartment.value.trim(),
-      message: form.message.value.trim(),
-      submittedAt: new Date().toLocaleString('ko-KR', {timeZone:'Asia/Seoul'})
-    };
-
-    try{
-      await fetch(SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: {'Content-Type': 'text/plain;charset=utf-8'},
-        body: JSON.stringify(payload)
-      });
-      msgBox.textContent = '상담 신청이 접수되었습니다. 빠른 시일 내에 연락드리겠습니다.';
-      msgBox.className = 'msg ok';
-      form.reset();
-    }catch(err){
-      msgBox.textContent = '전송 중 오류가 발생했습니다. 다시 시도해주세요.';
-      msgBox.className = 'msg err';
-    }finally{
-      btn.disabled = false;
-      btn.textContent = '상담 신청하기';
-    }
-  });
-</script>
-</body>
-</html>
+  return ContentService.createTextOutput(JSON.stringify({result: 'success'}))
+    .setMimeType(ContentService.MimeType.JSON);
+}
