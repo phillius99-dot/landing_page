@@ -37,6 +37,12 @@ async function main() {
     process.exit(1);
   }
 
+  // Vercel 크론(api/cron/auction-post.js)이 먼저 성공해서 GitHub에 직접 커밋했을 수도
+  // 있으므로, 매번 원격과 동기화한 뒤 posts.json을 읽는다. 그래야 중복 게시 판단도
+  // 정확해지고, 뒤에서 하는 git push도 origin에 뒤처져서 거부되는 일이 없다.
+  console.log("원격 저장소와 동기화 중...");
+  git(["pull", "--rebase"]);
+
   console.log("마이옥션 로그인 및 이번 주 낙찰 결과 조회 중...");
   const draft = await collectWeeklyAuctionPost();
   if (!draft) {
