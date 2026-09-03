@@ -20,5 +20,16 @@
     "area_floor": "계약106.36㎡ / 저층",
     "image_url": "",
     "post_id": "1784098515169"
+  },
+  {
+    "id": "1788396530003",
+    "article_no": "2646829780",
+    "title": "망월동 일반상가",
+    "trade_type": "월세",
+    "address": "-",
+    "price": "500/70",
+    "area_floor": "계약61.96㎡ / 저층",
+    "image_url": "https://landing-page-six-virid-72.vercel.app/images/properties/2646829780.png",
+    "post_id": "1788396524922"
   }
 ]
