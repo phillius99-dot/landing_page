@@ -86,5 +86,16 @@
     "area_floor": "계약89.53㎡ / 저층",
     "image_url": "https://landing-page-six-virid-72.vercel.app/images/properties/2647845768.png",
     "post_id": "1788747312733"
+  },
+  {
+    "id": "1788761719176",
+    "article_no": "2648248949",
+    "title": "망월동 일반상가",
+    "trade_type": "월세",
+    "address": "하남시 망월동 (미사강변도시)",
+    "price": "1억/1,000",
+    "area_floor": "계약647.94㎡ / 저층",
+    "image_url": "https://landing-page-six-virid-72.vercel.app/images/properties/2648248949.png",
+    "post_id": "1788761712903"
   }
 ]
