@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>추천 매물 | 왕가부동산</title>
+<meta name="description" content="하남 미사강변도시 상가·아파트 추천 매물을 한눈에 확인하세요. 공인중개사 신득주가 직접 검증한 매물 정보를 제공합니다."/>
+<meta name="robots" content="index, follow"/>
+<link href="https://landing-page-six-virid-72.vercel.app/properties" rel="canonical"/>
+<meta content="ko_KR" property="og:locale"/>
+<meta content="website" property="og:type"/>
+<meta content="추천 매물 | 왕가부동산" property="og:title"/>
+<meta content="하남 미사강변도시 상가·아파트 추천 매물을 한눈에 확인하세요." property="og:description"/>
+<meta content="https://landing-page-six-virid-72.vercel.app/properties" property="og:url"/>
+<meta content="왕가부동산" property="og:site_name"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-fixed": "#e6deff",
+                    "surface-container-low": "#fdf2e0",
+                    "inverse-surface": "#353024",
+                    "on-secondary-fixed-variant": "#4730a7",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary-container": "#2e098f",
+                    "surface-bright": "#fff8f1",
+                    "secondary": "#604ac0",
+                    "tertiary-container": "#00e7fe",
+                    "primary-tint": "#FAEAAD",
+                    "surface": "#F9F9F9",
+                    "surface-container-highest": "#ebe1d0",
+                    "on-secondary": "#ffffff",
+                    "body": "#333333",
+                    "tertiary": "#006874",
+                    "primary-container": "#ffcc00",
+                    "on-tertiary-container": "#00646e",
+                    "on-tertiary": "#ffffff",
+                    "on-primary-fixed": "#241a00",
+                    "surface-alt": "#F9FAFE",
+                    "tertiary-fixed-dim": "#00daf0",
+                    "outline": "#80765f",
+                    "surface-tint": "#745b00",
+                    "on-primary-container": "#6f5700",
+                    "background": "#fff8f1",
+                    "outline-variant": "#d2c5ab",
+                    "error": "#ba1a1a",
+                    "on-primary-fixed-variant": "#584400",
+                    "inverse-primary": "#f1c100",
+                    "on-background": "#1f1b10",
+                    "surface-container": "#f7eddb",
+                    "canvas": "#FFFFFF",
+                    "on-error-container": "#93000a",
+                    "surface-variant": "#ebe1d0",
+                    "muted": "#666666",
+                    "ink": "#151515",
+                    "on-error": "#ffffff",
+                    "primary-light": "#FFE066",
+                    "on-surface": "#1f1b10",
+                    "secondary-container": "#9884fd",
+                    "error-container": "#ffdad6",
+                    "divider": "#AAAAAA",
+                    "on-tertiary-fixed": "#001f24",
+                    "inverse-on-surface": "#faf0dd",
+                    "primary": "#745b00",
+                    "surface-dim": "#e3d9c7",
+                    "tertiary-fixed": "#95f1ff",
+                    "on-tertiary-fixed-variant": "#004f57",
+                    "primary-fixed-dim": "#f1c100",
+                    "on-primary": "#ffffff",
+                    "on-surface-variant": "#4e4632",
+                    "surface-container-high": "#f1e7d5",
+                    "primary-fixed": "#ffe08b",
+                    "on-secondary-fixed": "#1b0062",
+                    "secondary-fixed-dim": "#c9beff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "md": "16px",
+                    "xl": "32px",
+                    "section": "64px",
+                    "lg": "24px",
+                    "base": "20px",
+                    "sm": "8px",
+                    "xs": "4px",
+                    "xxl": "48px"
+            },
+            "fontFamily": {
+                    "body-main": ["Noto Sans KR", "sans-serif"],
+                    "headline-section": ["Plus Jakarta Sans", "sans-serif"],
+                    "button-lg": ["Plus Jakarta Sans", "sans-serif"],
+                    "display-hero": ["Plus Jakarta Sans", "sans-serif"],
+                    "label-muted": ["Noto Sans KR", "sans-serif"]
+            },
+            "fontSize": {
+                    "body-main": ["15px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-section": ["24px", {"lineHeight": "33.6px", "fontWeight": "600"}],
+                    "button-lg": ["18px", {"lineHeight": "18px", "fontWeight": "600"}],
+                    "display-hero": ["32px", {"lineHeight": "41.6px", "fontWeight": "400"}],
+                    "label-muted": ["13px", {"lineHeight": "18px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        body {
+            background-color: #F9F9F9;
+            color: #333333;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 15px;
+        }
+        img { max-width: 100%; }
+        a, button { min-height: 44px; }
+        .active-filter {
+            background-color: #745b00;
+            color: #ffffff;
+        }
+</style>
+</head>
+<body class="bg-surface text-body font-body-main">
+<header class="w-full sticky top-0 z-50 bg-surface border-b border-divider shadow-sm">
+<div class="max-w-7xl mx-auto px-lg flex justify-between items-center h-16">
+<div class="text-headline-section font-headline-section font-bold text-primary">왕가부동산</div>
+<nav class="hidden md:flex gap-xl items-center">
+<a class="text-on-surface-variant hover:text-primary transition-colors font-headline-section text-headline-section text-[16px]" href="index.html">홈</a>
+<a class="text-primary border-b-2 border-primary font-bold pb-1 font-headline-section text-headline-section text-[16px]" href="properties.html">추천 매물</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-headline-section text-headline-section text-[16px]" href="news.html">부동산 뉴스</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-headline-section text-headline-section text-[16px]" href="#">미사 소식</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-headline-section text-headline-section text-[16px]" href="#">상담 문의</a>
+</nav>
+<div class="flex items-center gap-md">
+<button class="bg-primary-container text-on-primary-container px-base py-sm rounded-lg font-bold hover:opacity-90 transition-opacity" onclick="location.href='tel:010-3366-7187'">
+                    전화 연결
+                </button>
+</div>
+</div>
+</header>
+<main class="max-w-7xl mx-auto px-lg py-section pb-28 md:pb-section">
+<div class="flex flex-col sm:flex-row justify-between sm:items-end gap-md mb-xl">
+<div>
+<h1 class="font-display-hero text-display-hero font-bold text-ink mb-xs">추천 매물</h1>
+<p class="text-muted">공인중개사가 직접 검증한 미사 지역 매물을 모두 확인하세요</p>
+</div>
+</div>
+<div class="flex flex-wrap gap-sm mb-xl" id="filter-tabs"></div>
+<div id="properties-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-lg">
+<p class="text-muted col-span-full">불러오는 중...</p>
+</div>
+</main>
+<footer class="w-full mt-xxl bg-surface-container-highest pb-24 md:pb-0">
+<div class="max-w-7xl mx-auto px-lg py-xl flex flex-col md:flex-row justify-between items-start md:items-center">
+<div class="mb-lg md:mb-0">
+<div class="font-headline-section text-headline-section font-bold text-on-surface mb-md">왕가부동산공인중개사사무소</div>
+<p class="font-body-main text-muted text-sm">대표자: 신득주 | 등록번호: 41450-2024-00036호</p>
+<p class="font-body-main text-muted text-sm">주소: 경기도 하남시 미사강변중앙로204번길 45, 305-A101호 | T. 010-3366-7187</p>
+<p class="font-body-main text-muted text-sm mt-md">© 2024 왕가부동산공인중개사사무소. All rights reserved.</p>
+</div>
+<div class="flex flex-col md:items-end gap-md">
+<div class="flex flex-wrap gap-md mb-md">
+<a class="text-muted hover:text-ink hover:underline font-body-main text-body-main" href="#">이용약관</a>
+<a class="text-muted hover:text-ink hover:underline font-body-main text-body-main font-bold" href="#">개인정보처리방침</a>
+<a class="text-muted hover:text-ink hover:underline font-body-main text-body-main" href="admin.html" id="agent-login-btn">Agent Login</a>
+</div>
+</div>
+</div>
+</footer>
+<nav class="fixed bottom-0 w-full z-50 bg-surface shadow-[0_-1px_3px_0_rgba(0,0,0,0.16)] flex justify-around items-center px-base py-sm md:hidden">
+<a class="flex flex-col items-center justify-center text-muted p-xs min-w-[44px] min-h-[44px] active:bg-surface-container-high transition-colors" href="index.html">
+<span class="material-symbols-outlined">home</span>
+<span class="text-[10px] mt-xs">홈</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-xl p-xs min-w-[44px] min-h-[44px]" href="properties.html">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-[10px] mt-xs">추천</span>
+</a>
+<a class="flex flex-col items-center justify-center text-muted p-xs min-w-[44px] min-h-[44px] active:bg-surface-container-high transition-colors" href="news.html">
+<span class="material-symbols-outlined">newspaper</span>
+<span class="text-[10px] mt-xs">뉴스</span>
+</a>
+<a class="flex flex-col items-center justify-center text-muted p-xs min-w-[44px] min-h-[44px] active:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">location_city</span>
+<span class="text-[10px] mt-xs">미사</span>
+</a>
+<a class="flex flex-col items-center justify-center text-muted p-xs min-w-[44px] min-h-[44px] active:bg-surface-container-high transition-colors" href="tel:010-3366-7187">
+<span class="material-symbols-outlined">call</span>
+<span class="text-[10px] mt-xs">문의</span>
+</a>
+</nav>
+<script src="db.js"></script>
+<script>
+let _allProperties = [];
+let _activeType = '전체';
+
+const tagColors = {
+  '매매': 'bg-ink/70',
+  '전세': 'bg-secondary',
+  '월세': 'bg-primary',
+  '급매': 'bg-error'
+};
+
+function renderFilterTabs(types) {
+  const wrap = document.getElementById('filter-tabs');
+  const all = ['전체'].concat(types);
+  wrap.innerHTML = all.map(function (t) {
+    const cls = t === _activeType
+      ? 'active-filter'
+      : 'bg-white text-muted hover:text-ink border border-divider';
+    return '<button class="' + cls + ' px-base py-sm rounded-full font-bold text-sm transition-colors" data-type="' + escapeHtml(t) + '" style="min-height:40px;">' + escapeHtml(t) + '</button>';
+  }).join('');
+  wrap.querySelectorAll('button').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      _activeType = btn.getAttribute('data-type');
+      renderFilterTabs(types);
+      renderGrid();
+    });
+  });
+}
+
+function renderGrid() {
+  const container = document.getElementById('properties-grid');
+  const filtered = _activeType === '전체'
+    ? _allProperties
+    : _allProperties.filter(function (p) { return p.trade_type === _activeType; });
+
+  if (!filtered.length) {
+    container.innerHTML = '<p class="text-muted col-span-full">해당 조건의 매물이 없습니다.</p>';
+    return;
+  }
+
+  container.innerHTML = filtered.map(function (p) {
+    const tagClass = tagColors[p.trade_type] || 'bg-ink/70';
+    const cardInner =
+      '<div class="h-48 relative overflow-hidden">' +
+        '<img class="w-full h-full object-cover" alt="' + escapeHtml(p.title || '') + '" src="' + escapeHtml(p.image_url || '') + '">' +
+        '<div class="absolute top-md left-md ' + tagClass + ' text-white px-sm py-xs text-xs rounded font-bold backdrop-blur-sm">' + escapeHtml(p.trade_type || '') + '</div>' +
+      '</div>' +
+      '<div class="p-md">' +
+        '<h3 class="font-bold text-ink text-lg mb-xs truncate">' + escapeHtml(p.title || '') + '</h3>' +
+        '<p class="text-muted text-sm mb-md flex items-center gap-xs">' +
+          '<span class="material-symbols-outlined text-sm">location_on</span> ' + escapeHtml(p.address || '') +
+        '</p>' +
+        '<div class="flex justify-between items-center border-t border-divider pt-md">' +
+          '<span class="text-ink font-extrabold text-xl">' + escapeHtml(p.price || '') + '</span>' +
+          '<span class="text-muted text-xs">' + escapeHtml(p.area_floor || '') + '</span>' +
+        '</div>' +
+      '</div>';
+    const cardClass = 'bg-white rounded-xl shadow-[0_1px_3px_0_rgba(0,0,0,0.16)] overflow-hidden transition-transform hover:-translate-y-2';
+    if (p.post_id) {
+      return '<a href="news-detail.html?id=' + encodeURIComponent(p.post_id) + '" class="' + cardClass + ' block">' + cardInner + '</a>';
+    }
+    return '<div class="' + cardClass + '">' + cardInner + '</div>';
+  }).join('');
+}
+
+(async function init() {
+  const container = document.getElementById('properties-grid');
+  try {
+    _allProperties = await getProperties();
+  } catch (e) {
+    container.innerHTML = '<p class="text-muted col-span-full">매물을 불러오지 못했습니다: ' + escapeHtml(e.message) + '</p>';
+    return;
+  }
+  if (!_allProperties.length) {
+    container.innerHTML = '<p class="text-muted col-span-full">등록된 매물이 없습니다.</p>';
+    return;
+  }
+  const types = Array.from(new Set(_allProperties.map(function (p) { return p.trade_type; }).filter(Boolean)));
+  renderFilterTabs(types);
+  renderGrid();
+})();
+</script>
+</body>
+</html>
