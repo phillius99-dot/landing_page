@@ -1,11 +1,11 @@
 import { TIPS } from "../../lib/tips.js";
+import { buildSitemap } from "../../lib/sitemap.js";
 
 const OWNER = "phillius99-dot";
 const REPO = "landing_page";
 const POSTS_PATH = "data/posts.json";
 const PROGRESS_PATH = "data/tip_progress.json";
 const SITEMAP_PATH = "sitemap.xml";
-const SITE_URL = "https://landing-page-six-virid-72.vercel.app";
 
 function b64encode(str) {
   return Buffer.from(str, "utf-8").toString("base64");
@@ -44,27 +44,6 @@ async function writeFile(token, path, content, sha, message) {
     throw new Error(`${path} 저장 실패: ${res.status} ${text}`);
   }
   return res.json();
-}
-
-function buildSitemap(posts) {
-  const today = new Date().toISOString().slice(0, 10);
-  const urls = [
-    { loc: `${SITE_URL}/`, lastmod: today, freq: "weekly", priority: "1.0" },
-    { loc: `${SITE_URL}/news`, lastmod: today, freq: "daily", priority: "0.8" },
-    ...posts.map((p) => ({
-      loc: `${SITE_URL}/news-detail?id=${p.id}`,
-      lastmod: p.date || today,
-      freq: "monthly",
-      priority: "0.6",
-    })),
-  ];
-  const body = urls
-    .map(
-      (u) =>
-        `  <url>\n    <loc>${u.loc.replace(/&/g, "&amp;")}</loc>\n    <lastmod>${u.lastmod}</lastmod>\n    <changefreq>${u.freq}</changefreq>\n    <priority>${u.priority}</priority>\n  </url>`
-    )
-    .join("\n");
-  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${body}\n</urlset>\n`;
 }
 
 // 상식 문장 맨 앞부분을 제목으로 사용 (첫 문장, 최대 30자)

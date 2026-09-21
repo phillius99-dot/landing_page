@@ -5,33 +5,12 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-
-const SITE_URL = 'https://landing-page-six-virid-72.vercel.app';
+import { buildSitemap } from '../lib/sitemap.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.join(__dirname, '..');
 const posts = JSON.parse(fs.readFileSync(path.join(rootDir, 'data', 'posts.json'), 'utf8'));
-const today = new Date().toISOString().slice(0, 10);
 
-const urls = [
-  { loc: `${SITE_URL}/`, lastmod: today, freq: 'weekly', priority: '1.0' },
-  { loc: `${SITE_URL}/news`, lastmod: today, freq: 'daily', priority: '0.8' },
-  ...posts.map((p) => ({
-    loc: `${SITE_URL}/news-detail?id=${p.id}`,
-    lastmod: p.date || today,
-    freq: 'monthly',
-    priority: '0.6',
-  })),
-];
-
-const body = urls
-  .map(
-    (u) =>
-      `  <url>\n    <loc>${u.loc.replace(/&/g, '&amp;')}</loc>\n    <lastmod>${u.lastmod}</lastmod>\n    <changefreq>${u.freq}</changefreq>\n    <priority>${u.priority}</priority>\n  </url>`
-  )
-  .join('\n');
-
-const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${body}\n</urlset>\n`;
-
+const xml = buildSitemap(posts);
 fs.writeFileSync(path.join(rootDir, 'sitemap.xml'), xml);
-console.log(`sitemap.xml 생성 완료 (${urls.length}개 URL)`);
+console.log(`sitemap.xml 생성 완료 (${(xml.match(/<loc>/g) || []).length}개 URL)`);

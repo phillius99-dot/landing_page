@@ -255,7 +255,7 @@ function renderList(posts) {
   }
   list.innerHTML = posts.map(function (post) {
     const summary = markdownToText(post.content || '').slice(0, 100);
-    return '<a href="news-detail.html?id=' + encodeURIComponent(post.id) + '" class="group block p-lg border-b border-divider hover:bg-surface transition-all cursor-pointer">' +
+    return '<a href="/news/' + encodeURIComponent(post.id) + '" class="group block p-lg border-b border-divider hover:bg-surface transition-all cursor-pointer">' +
       '<div class="flex justify-between items-start mb-xs gap-md">' +
       '<span class="text-primary font-bold text-xs uppercase tracking-wider">' + escapeHtml(post.category || '') + '</span>' +
       '<span class="font-label-muted text-label-muted text-muted shrink-0">' + escapeHtml(post.date || '') + '</span>' +

@@ -2,6 +2,22 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "regions": ["icn1"],
+  "functions": {
+    "api/post.js": {
+      "includeFiles": "data/posts.json"
+    }
+  },
+  "rewrites": [
+    { "source": "/news/:id", "destination": "/api/post?id=:id" }
+  ],
+  "redirects": [
+    {
+      "source": "/news-detail",
+      "has": [{ "type": "query", "key": "id", "value": "(?<id>\\d+)" }],
+      "destination": "/news/:id",
+      "permanent": true
+    }
+  ],
   "crons": [
     {
       "path": "/api/cron/auction-post",

@@ -261,7 +261,7 @@ function renderGrid() {
       '</div>';
     const cardClass = 'bg-white rounded-xl shadow-[0_1px_3px_0_rgba(0,0,0,0.16)] overflow-hidden transition-transform hover:-translate-y-2';
     if (p.post_id) {
-      return '<a href="news-detail.html?id=' + encodeURIComponent(p.post_id) + '" class="' + cardClass + ' block">' + cardInner + '</a>';
+      return '<a href="/news/' + encodeURIComponent(p.post_id) + '" class="' + cardClass + ' block">' + cardInner + '</a>';
     }
     return '<div class="' + cardClass + '">' + cardInner + '</div>';
   }).join('');

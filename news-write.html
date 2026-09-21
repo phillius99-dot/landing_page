@@ -121,10 +121,10 @@ document.getElementById('post-form').addEventListener('submit', async function (
   try {
     if (editId) {
       await updatePost(editId, payload);
-      window.location.href = 'news-detail.html?id=' + encodeURIComponent(editId);
+      window.location.href = '/news/' + encodeURIComponent(editId);
     } else {
       const created = await savePost(payload);
-      window.location.href = 'news-detail.html?id=' + encodeURIComponent(created.id);
+      window.location.href = '/news/' + encodeURIComponent(created.id);
     }
   } catch (e) {
     showError('저장 실패: ' + e.message);
