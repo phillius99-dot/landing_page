@@ -5,10 +5,15 @@
   "functions": {
     "api/post.js": {
       "includeFiles": "data/posts.json"
+    },
+    "api/hub.js": {
+      "includeFiles": "data/posts.json"
     }
   },
   "rewrites": [
-    { "source": "/news/:id", "destination": "/api/post?id=:id" }
+    { "source": "/news/:id", "destination": "/api/post?id=:id" },
+    { "source": "/tips", "destination": "/api/hub?c=tips" },
+    { "source": "/auction", "destination": "/api/hub?c=auction" }
   ],
   "redirects": [
     {

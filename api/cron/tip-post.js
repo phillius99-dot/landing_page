@@ -1,4 +1,4 @@
-import { TIPS } from "../../lib/tips.js";
+import { TIPS, buildTipContent, tipTitle } from "../../lib/tips.js";
 import { buildSitemap } from "../../lib/sitemap.js";
 
 const OWNER = "phillius99-dot";
@@ -46,13 +46,6 @@ async function writeFile(token, path, content, sha, message) {
   return res.json();
 }
 
-// 상식 문장 맨 앞부분을 제목으로 사용 (첫 문장, 최대 30자)
-function makeTitle(tip) {
-  const firstSentence = tip.split(/[:.]/)[0].trim();
-  const short = firstSentence.length > 30 ? firstSentence.slice(0, 30) + "..." : firstSentence;
-  return `오늘의 부동산 상식 - ${short}`;
-}
-
 export default async function handler(req, res) {
   const secret = process.env.CRON_SECRET;
   if (secret) {
@@ -80,10 +73,10 @@ export default async function handler(req, res) {
     const today = new Date().toISOString().slice(0, 10);
     const post = {
       id: String(Date.now()),
-      title: makeTitle(tip),
+      title: tipTitle(tip),
       category: "부동산 상식",
       date: today,
-      content: tip,
+      content: buildTipContent(tip),
     };
     posts.push(post);
     await writeFile(token, POSTS_PATH, JSON.stringify(posts, null, 2), postsSha, `feat: add daily tip post "${post.title}"`);
