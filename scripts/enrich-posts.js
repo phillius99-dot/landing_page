@@ -51,12 +51,14 @@ function enrichAuction(post) {
   return true;
 }
 
+// 원문(TIPS) 그대로 올라간 글이든, 이미 한 번 바뀐 글이든 제목으로도 찾아서 최신 게시용 문장으로 다시 만듭니다.
 function enrichTip(post) {
-  if (post.content.includes('## 참고하세요')) return false;
-  const tip = TIPS.find((t) => t.trim() === post.content.trim());
+  const tip = TIPS.find((t) => t.trim() === post.content.trim() || tipTitle(t) === post.title);
   if (!tip) return false;
+  const content = buildTipContent(tip);
+  if (post.content === content) return false;
   post.title = tipTitle(tip);
-  post.content = buildTipContent(tip);
+  post.content = content;
   return true;
 }
 
