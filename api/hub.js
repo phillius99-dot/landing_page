@@ -2,7 +2,7 @@
 // 개별 글은 짧아도, 모음 페이지는 글 전체를 한 곳에 담은 긴 페이지라 검색에 잡히기 좋습니다.
 import { bodyText, escapeHtml } from "../lib/markdown.js";
 import { SITE_URL, postUrl } from "../lib/sitemap.js";
-import { HUBS, OFFICE_PHONE, SITE_NAME, renderShell, truncate } from "../lib/layout.js";
+import { AGENT_LD, HUBS, OFFICE_PHONE, PERSON_LD, SITE_NAME, renderShell, truncate } from "../lib/layout.js";
 import { byNewest, loadBundledPosts } from "../lib/posts-data.js";
 
 const COPY = {
@@ -44,7 +44,8 @@ function renderHub(key, posts) {
     description: copy.desc(list.length),
     url,
     inLanguage: "ko-KR",
-    publisher: { "@type": "Organization", name: SITE_NAME },
+    publisher: AGENT_LD,
+    author: PERSON_LD,
     mainEntity: {
       "@type": "ItemList",
       numberOfItems: list.length,

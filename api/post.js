@@ -2,7 +2,9 @@
 // 검색엔진·AI 크롤러가 JS 실행 없이도 제목/본문/메타태그를 읽을 수 있게 하는 것이 목적입니다.
 import { bodyText, escapeHtml, renderMarkdown } from "../lib/markdown.js";
 import { SITE_URL, postUrl } from "../lib/sitemap.js";
-import { SITE_NAME, hubForCategory, renderShell, truncate } from "../lib/layout.js";
+import {
+  AGENT_ID, AGENT_LD, PERSON_ID, PERSON_LD, authorBox, extractFaq, hubForCategory, renderShell, truncate,
+} from "../lib/layout.js";
 import { byNewest, loadBundledPosts, loadLatestPosts } from "../lib/posts-data.js";
 
 const DEFAULT_DESC = "왕가부동산공인중개사사무소가 전하는 하남 미사강변도시 부동산 뉴스입니다.";
@@ -21,8 +23,7 @@ function renderPage(post, related) {
   const url = postUrl(post.id);
   const hub = hubForCategory(post.category);
 
-  const ld = {
-    "@context": "https://schema.org",
+  const article = {
     "@type": "Article",
     headline: post.title || "",
     description: desc,
@@ -33,8 +34,19 @@ function renderPage(post, related) {
     url,
     image: `${SITE_URL}/agent.jpg`,
     inLanguage: "ko-KR",
-    author: { "@type": "Organization", name: SITE_NAME },
-    publisher: { "@type": "Organization", name: SITE_NAME },
+    author: { "@id": PERSON_ID },
+    publisher: { "@id": AGENT_ID },
+    about: { "@type": "Place", name: "하남 미사강변도시" },
+  };
+  const faq = extractFaq(post.content);
+  const ld = {
+    "@context": "https://schema.org",
+    "@graph": [
+      article,
+      ...(faq.length >= 2 ? [{ "@type": "FAQPage", "@id": `${url}#faq`, mainEntity: faq }] : []),
+      AGENT_LD,
+      PERSON_LD,
+    ],
   };
 
   const hubLink = hub
@@ -60,6 +72,7 @@ ${related
 <h1 class="font-display-hero text-2xl md:text-display-hero text-ink mt-sm mb-sm">${escapeHtml(post.title || "")}</h1>
 <p class="text-muted text-sm mb-lg"><time datetime="${escapeHtml(post.date || "")}">${escapeHtml(post.date || "")}</time></p>
 <div id="post-content">${renderMarkdown(post.content || "")}</div>
+${authorBox()}
 ${hubLink}
 <div id="admin-actions" class="hidden mt-xl pt-lg border-t border-divider flex gap-md">
 <a id="edit-btn" class="px-lg py-md rounded-lg bg-primary-container text-on-surface font-bold flex items-center justify-center" href="/news-write.html?id=${encodeURIComponent(post.id)}">수정</a>

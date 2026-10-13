@@ -23,24 +23,38 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "RealEstateAgent",
-  "name": "왕가부동산공인중개사사무소",
-  "image": "https://landing-page-six-virid-72.vercel.app/agent.jpg",
-  "telephone": "010-3366-7187",
-  "faxNumber": "0504-288-7187",
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "망월동 1099-1 1층 1057호(망월동, 그랑파사쥬 11-1BL)",
-    "addressLocality": "하남시",
-    "addressRegion": "경기도",
-    "addressCountry": "KR"
-  },
-  "areaServed": "하남 미사강변도시",
-  "url": "https://landing-page-six-virid-72.vercel.app/",
-  "founder": {
-    "@type": "Person",
-    "name": "신득주"
-  }
+  "@graph": [
+    {
+      "@type": "RealEstateAgent",
+      "@id": "https://landing-page-six-virid-72.vercel.app/#agent",
+      "name": "왕가부동산공인중개사사무소",
+      "alternateName": ["왕가부동산", "왕가부동산 신소장"],
+      "image": "https://landing-page-six-virid-72.vercel.app/agent.jpg",
+      "telephone": "010-3366-7187",
+      "faxNumber": "0504-288-7187",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "미사강변중앙로 180, 1층 1057호 (망월동 1099-1, 힐스테이트 미사역 그랑파사쥬)",
+        "addressLocality": "하남시",
+        "addressRegion": "경기도",
+        "addressCountry": "KR"
+      },
+      "areaServed": ["하남 미사강변도시", "경기도 하남시"],
+      "url": "https://landing-page-six-virid-72.vercel.app/",
+      "sameAs": ["https://blog.naver.com/phillius9"],
+      "founder": { "@id": "https://landing-page-six-virid-72.vercel.app/#shin" }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://landing-page-six-virid-72.vercel.app/#shin",
+      "name": "신득주",
+      "alternateName": "신소장",
+      "jobTitle": "대표 공인중개사",
+      "worksFor": { "@id": "https://landing-page-six-virid-72.vercel.app/#agent" },
+      "knowsAbout": ["하남 미사강변도시 아파트", "미사 오피스텔 월세", "미사 상가 임대·매매", "하남 법원경매"],
+      "sameAs": ["https://blog.naver.com/phillius9"]
+    }
+  ]
 }
 </script>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
@@ -372,7 +386,7 @@
 <div class="max-w-7xl mx-auto px-lg py-xl flex flex-col md:flex-row justify-between border-t border-divider/30">
 <div class="mb-xl md:mb-0">
 <div class="font-headline-section text-headline-section font-bold text-on-surface mb-md">왕가부동산공인중개사사무소</div>
-<p class="text-muted text-sm leading-relaxed max-w-sm mb-lg">경기도 하남시 망월동 1099-1 1층 1057호(망월동, 그랑파사쥬 11-1BL)<br/>대표: 신득주 | 등록번호: 41450-2024-00036호<br/>T. 010-3366-7187 | F. 0504-288-7187</p>
+<p class="text-muted text-sm leading-relaxed max-w-sm mb-lg">경기도 하남시 미사강변중앙로 180, 1층 1057호 (망월동 1099-1, 힐스테이트 미사역 그랑파사쥬 11-1BL)<br/>대표: 신득주 | 등록번호: 41450-2024-00036호<br/>T. 010-3366-7187 | F. 0504-288-7187</p>
 <div class="flex gap-md">
 <a class="w-11 h-11 bg-on-surface/5 rounded-full flex items-center justify-center text-on-surface hover:bg-primary hover:text-white transition-colors" href="#">
 <span class="material-symbols-outlined text-[18px]">chat</span>
