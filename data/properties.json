@@ -361,5 +361,16 @@
     "area_floor": "계약342.14㎡ / 2층",
     "image_url": "https://landing-page-six-virid-72.vercel.app/images/properties/2654591618.png",
     "post_id": "1791785705760"
+  },
+  {
+    "id": "1791861316219",
+    "article_no": "2654945357",
+    "title": "하남미사 롯데캐슬 스타",
+    "trade_type": "월세",
+    "address": "하남시 미사강변중앙로",
+    "price": "1,000/65",
+    "area_floor": "계약67.2㎡ / 2층",
+    "image_url": "https://landing-page-six-virid-72.vercel.app/images/properties/2654945357.png",
+    "post_id": "1791861310663"
   }
 ]
