@@ -394,5 +394,16 @@
     "area_floor": "212.9㎡ / 8층 ",
     "image_url": "https://landing-page-six-virid-72.vercel.app/images/properties/2655432232.png",
     "post_id": "1792127706962"
+  },
+  {
+    "id": "1792304115473",
+    "article_no": "2656107597",
+    "title": "망월동 일반상가",
+    "trade_type": "월세",
+    "address": "하남시 망월동",
+    "price": "보증금 3,000만원 / 월세 200만원",
+    "area_floor": "177.64㎡ / 3층 ",
+    "image_url": "https://landing-page-six-virid-72.vercel.app/images/properties/2656107597.png",
+    "post_id": "1792304109074"
   }
 ]
