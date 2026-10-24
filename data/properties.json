@@ -449,5 +449,16 @@
     "area_floor": "157.85㎡ / 2층 ",
     "image_url": "https://landing-page-six-virid-72.vercel.app/images/properties/2657154541.png",
     "post_id": "1792808109184"
+  },
+  {
+    "id": "1792818910248",
+    "article_no": "2657493289",
+    "title": "해링턴타워레이크파크 1동",
+    "trade_type": "매매",
+    "address": "하남시 망월동",
+    "price": "매매 11800만원",
+    "area_floor": "57C㎡ / 저층 ",
+    "image_url": "https://landing-page-six-virid-72.vercel.app/images/properties/2657493289.png",
+    "post_id": "1792818904921"
   }
 ]
