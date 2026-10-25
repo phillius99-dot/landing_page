@@ -1,24 +1,8 @@
-let _config = null;
-
-async function loadConfig() {
-  if (_config) return _config;
-  let api = {}, file = {};
-  try { const r = await fetch('/api/config'); if (r.ok) api = await r.json(); } catch(e) {}
-  try { const r = await fetch('config/git_config.json'); if (r.ok) file = await r.json(); } catch(e) {}
-  const apiTok = String(api.github_token || '').trim();
-  const fileTok = String(file.github_token || '').trim();
-  _config = {
-    github_token: (apiTok && apiTok !== 'YOUR_GITHUB_TOKEN') ? apiTok : fileTok,
-    github_owner: file.github_owner || '',
-    github_repo: file.github_repo || '',
-    data_file_path: file.data_file_path || 'data/posts.json',
-    admin_password: api.admin_password || file.admin_password || 'admin1234'
-  };
-  return _config;
-}
+// 공개 데이터(posts/properties)는 사이트에 배포된 /data/*.json 을 읽고,
+// 쓰기·접수 목록은 /api/admin 이 서버에서 비밀번호를 확인한 뒤 처리한다. (브라우저에는 GitHub 토큰을 두지 않는다)
 
 function isAdmin() {
-  return sessionStorage.getItem('isAdmin') === 'true';
+  return sessionStorage.getItem('isAdmin') === 'true' && !!sessionStorage.getItem('adminPw');
 }
 
 function requireAdmin() {
@@ -27,119 +11,54 @@ function requireAdmin() {
   }
 }
 
-function base64ToUtf8(base64) {
-  const binary = atob(String(base64).replace(/\n/g, ''));
-  const bytes = new Uint8Array(binary.length);
-  for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
-  return new TextDecoder('utf-8').decode(bytes);
-}
-
-function utf8ToBase64(str) {
-  const bytes = new TextEncoder().encode(str);
-  let binary = '';
-  bytes.forEach(function(b) { binary += String.fromCharCode(b); });
-  return btoa(binary);
-}
-
-async function ghInfo() {
-  const config = await loadConfig();
-  return {
-    token: String(config.github_token || '').replace(/\s+/g, ''),
-    owner: config.github_owner,
-    repo: config.github_repo,
-    path: config.data_file_path
-  };
-}
-
-async function fetchPostsFile() {
-  const { token, owner, repo, path } = await ghInfo();
-  if (!token || !owner || !repo) {
-    throw new Error('GitHub 설정이 올바르지 않습니다. (토큰/저장소 정보를 확인해주세요)');
-  }
-  const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
-  const res = await fetch(url, {
-    headers: {
-      'Authorization': 'token ' + token,
-      'Accept': 'application/vnd.github+json'
-    }
+async function adminCall(action, params) {
+  const res = await fetch('/api/admin', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(Object.assign({ action: action, password: sessionStorage.getItem('adminPw') || '' }, params || {}))
   });
-  if (!res.ok) {
-    throw new Error(`게시글 조회 실패: ${res.status}`);
+  const data = await res.json().catch(function () { return {}; });
+  if (res.status === 401) {
+    sessionStorage.removeItem('isAdmin');
+    sessionStorage.removeItem('adminPw');
   }
-  const data = await res.json();
-  const text = base64ToUtf8(data.content);
-  let posts = [];
-  try { posts = JSON.parse(text || '[]'); } catch (e) { posts = []; }
-  return { posts, sha: data.sha };
+  if (!res.ok) throw new Error(data.error || ('요청 실패: ' + res.status));
+  return data;
 }
 
-async function writePostsFile(posts, sha, message) {
-  const { token, owner, repo, path } = await ghInfo();
-  if (!token || !owner || !repo) {
-    throw new Error('GitHub 설정이 올바르지 않습니다. (토큰/저장소 정보를 확인해주세요)');
+// 관리자 로그인: 서버에서 비밀번호가 맞으면 이 탭(sessionStorage)에만 기억한다
+async function adminLogin(password) {
+  sessionStorage.setItem('adminPw', password);
+  try {
+    await adminCall('login');
+    sessionStorage.setItem('isAdmin', 'true');
+    return true;
+  } catch (e) {
+    sessionStorage.removeItem('adminPw');
+    throw e;
   }
-  const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
-  const res = await fetch(url, {
-    method: 'PUT',
-    headers: {
-      'Authorization': 'token ' + token,
-      'Accept': 'application/vnd.github+json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      message: message || 'chore: update posts.json',
-      content: utf8ToBase64(JSON.stringify(posts, null, 2)),
-      sha
-    })
-  });
-  if (!res.ok) {
-    const errText = await res.text().catch(function () { return ''; });
-    throw new Error(`저장 실패: ${res.status} ${errText}`);
-  }
+}
+
+function adminLogout() {
+  sessionStorage.removeItem('isAdmin');
+  sessionStorage.removeItem('adminPw');
+}
+
+async function fetchDataJson(path) {
+  const res = await fetch('/' + path + '?t=' + Date.now(), { cache: 'no-store' });
+  if (!res.ok) throw new Error('데이터 조회 실패: ' + res.status);
   return res.json();
 }
 
-async function ghInfoProperties() {
-  const config = await loadConfig();
-  return {
-    token: String(config.github_token || '').replace(/\s+/g, ''),
-    owner: config.github_owner,
-    repo: config.github_repo,
-    path: config.properties_file_path || 'data/properties.json'
-  };
-}
-
-async function fetchPropertiesFile() {
-  const { token, owner, repo, path } = await ghInfoProperties();
-  if (!token || !owner || !repo) {
-    throw new Error('GitHub 설정이 올바르지 않습니다. (토큰/저장소 정보를 확인해주세요)');
-  }
-  const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
-  const res = await fetch(url, {
-    headers: {
-      'Authorization': 'token ' + token,
-      'Accept': 'application/vnd.github+json'
-    }
-  });
-  if (!res.ok) {
-    throw new Error(`매물 조회 실패: ${res.status}`);
-  }
-  const data = await res.json();
-  const text = base64ToUtf8(data.content);
-  let properties = [];
-  try { properties = JSON.parse(text || '[]'); } catch (e) { properties = []; }
-  return { properties, sha: data.sha };
-}
-
 async function getProperties() {
-  const { properties } = await fetchPropertiesFile();
+  const properties = await fetchDataJson('data/properties.json');
   return properties.slice().sort(function (a, b) {
     return String(b.id || '').localeCompare(String(a.id || ''));
   });
 }
 
 async function getPosts() {
-  const { posts } = await fetchPostsFile();
+  const posts = await fetchDataJson('data/posts.json');
   return posts.slice().sort(function (a, b) {
     return String(b.date || '').localeCompare(String(a.date || ''));
   });
@@ -151,107 +70,27 @@ async function getPost(id) {
 }
 
 async function savePost(post) {
-  const { posts, sha } = await fetchPostsFile();
-  const newPost = {
-    id: String(Date.now()),
-    title: post.title || '',
-    category: post.category || '',
-    date: post.date || new Date().toISOString().slice(0, 10),
-    content: post.content || ''
-  };
-  posts.push(newPost);
-  await writePostsFile(posts, sha, `feat: add post "${newPost.title}"`);
-  return newPost;
+  return (await adminCall('savePost', { post: post })).post;
 }
 
 async function updatePost(id, updated) {
-  const { posts, sha } = await fetchPostsFile();
-  const idx = posts.findIndex(function (p) { return String(p.id) === String(id); });
-  if (idx === -1) throw new Error('게시글을 찾을 수 없습니다.');
-  posts[idx] = Object.assign({}, posts[idx], updated, { id: posts[idx].id });
-  await writePostsFile(posts, sha, `chore: update post "${posts[idx].title}"`);
-  return posts[idx];
+  return (await adminCall('updatePost', { id: id, post: updated })).post;
 }
 
 async function deletePost(id) {
-  const { posts, sha } = await fetchPostsFile();
-  const filtered = posts.filter(function (p) { return String(p.id) !== String(id); });
-  await writePostsFile(filtered, sha, `chore: delete post ${id}`);
+  await adminCall('deletePost', { id: id });
   return true;
 }
 
-async function ghInfoSubmissions() {
-  const config = await loadConfig();
-  return {
-    token: String(config.github_token || '').replace(/\s+/g, ''),
-    owner: config.github_owner,
-    repo: 'wangga_private_data',  // 접수자 이름·연락처가 있어 공개 저장소(landing_page) 대신 비공개 저장소에 둔다
-    path: 'data/property_submissions.json'
-  };
-}
-
-async function fetchSubmissionsFile() {
-  const { token, owner, repo, path } = await ghInfoSubmissions();
-  if (!token || !owner || !repo) {
-    throw new Error('GitHub 설정이 올바르지 않습니다. (토큰/저장소 정보를 확인해주세요)');
-  }
-  const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
-  const res = await fetch(url, {
-    headers: {
-      'Authorization': 'token ' + token,
-      'Accept': 'application/vnd.github+json'
-    }
-  });
-  if (res.status === 404) {
-    return { submissions: [], sha: undefined };
-  }
-  if (!res.ok) {
-    throw new Error(`접수 목록 조회 실패: ${res.status}`);
-  }
-  const data = await res.json();
-  const text = base64ToUtf8(data.content);
-  let submissions = [];
-  try { submissions = JSON.parse(text || '[]'); } catch (e) { submissions = []; }
-  return { submissions, sha: data.sha };
-}
-
-async function writeSubmissionsFile(submissions, sha, message) {
-  const { token, owner, repo, path } = await ghInfoSubmissions();
-  if (!token || !owner || !repo) {
-    throw new Error('GitHub 설정이 올바르지 않습니다. (토큰/저장소 정보를 확인해주세요)');
-  }
-  const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
-  const res = await fetch(url, {
-    method: 'PUT',
-    headers: {
-      'Authorization': 'token ' + token,
-      'Accept': 'application/vnd.github+json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      message: message || 'chore: update property_submissions.json',
-      content: utf8ToBase64(JSON.stringify(submissions, null, 2)),
-      sha
-    })
-  });
-  if (!res.ok) {
-    const errText = await res.text().catch(function () { return ''; });
-    throw new Error(`저장 실패: ${res.status} ${errText}`);
-  }
-  return res.json();
-}
-
 async function getSubmissions() {
-  const { submissions } = await fetchSubmissionsFile();
+  const { submissions } = await adminCall('listSubmissions');
   return submissions.slice().sort(function (a, b) {
     return String(b.id || '').localeCompare(String(a.id || ''));
   });
 }
 
 async function deleteSubmission(id) {
-  const { submissions, sha } = await fetchSubmissionsFile();
-  const filtered = submissions.filter(function (s) { return String(s.id) !== String(id); });
-  await writeSubmissionsFile(filtered, sha, `chore: remove submission ${id}`);
+  await adminCall('deleteSubmission', { id: id });
   return true;
 }
 

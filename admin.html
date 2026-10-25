@@ -202,20 +202,19 @@ async function loadPosts() {
 
 document.getElementById('login-form').addEventListener('submit', async function (e) {
   e.preventDefault();
-  const config = await loadConfig();
   const input = document.getElementById('password').value;
-  if (input === config.admin_password) {
-    sessionStorage.setItem('isAdmin', 'true');
+  try {
+    await adminLogin(input);
     window.location.reload();
-  } else {
+  } catch (err) {
     const errEl = document.getElementById('login-error');
-    errEl.textContent = '비밀번호가 올바르지 않습니다.';
+    errEl.textContent = err.message || '비밀번호가 올바르지 않습니다.';
     errEl.classList.remove('hidden');
   }
 });
 
 document.getElementById('logout-btn').addEventListener('click', function () {
-  sessionStorage.removeItem('isAdmin');
+  adminLogout();
   window.location.reload();
 });
 
