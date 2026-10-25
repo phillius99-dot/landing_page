@@ -42,12 +42,21 @@ export default async function handler(req, res) {
   const address = String(body.address || "").trim();
   const price = String(body.price || "").trim();
   const memo = String(body.memo || "").trim();
+  const propertyType = String(body.property_type || "").trim();
+  const area = String(body.area || "").trim();
+
+  // 봇이 숨김 칸(website)까지 채우면 저장하지 않고 성공처럼 응답
+  if (body.website) {
+    res.status(200).json({ ok: true });
+    return;
+  }
 
   if (!name || !phone) {
     res.status(400).json({ error: "이름과 연락처는 필수입니다." });
     return;
   }
-  if (name.length > 50 || phone.length > 30 || address.length > 200 || price.length > 50 || memo.length > 1000) {
+  if (name.length > 50 || phone.length > 30 || address.length > 200 || price.length > 50 || memo.length > 1000 ||
+      propertyType.length > 20 || tradeType.length > 20 || area.length > 30) {
     res.status(400).json({ error: "입력값이 너무 깁니다." });
     return;
   }
@@ -80,8 +89,10 @@ export default async function handler(req, res) {
       id: String(Date.now()),
       name,
       phone,
+      property_type: propertyType,
       trade_type: tradeType,
       address,
+      area,
       price,
       memo,
       status: "대기",

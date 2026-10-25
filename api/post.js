@@ -3,7 +3,7 @@
 import { bodyText, escapeHtml, renderMarkdown } from "../lib/markdown.js";
 import { SITE_URL, postUrl } from "../lib/sitemap.js";
 import {
-  AGENT_ID, AGENT_LD, PERSON_ID, PERSON_LD, authorBox, extractFaq, hubForCategory, renderShell, truncate,
+  AGENT_ID, AGENT_LD, PERSON_ID, PERSON_LD, authorBox, sellBanner, extractFaq, hubForCategory, renderShell, truncate,
 } from "../lib/layout.js";
 import { byNewest, loadBundledPosts, loadLatestPosts } from "../lib/posts-data.js";
 
@@ -72,6 +72,7 @@ ${related
 <h1 class="font-display-hero text-2xl md:text-display-hero text-ink mt-sm mb-sm">${escapeHtml(post.title || "")}</h1>
 <p class="text-muted text-sm mb-lg"><time datetime="${escapeHtml(post.date || "")}">${escapeHtml(post.date || "")}</time></p>
 <div id="post-content">${renderMarkdown(post.content || "")}</div>
+${sellBanner()}
 ${authorBox()}
 ${hubLink}
 <div id="admin-actions" class="hidden mt-xl pt-lg border-t border-divider flex gap-md">
