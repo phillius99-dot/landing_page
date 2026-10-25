@@ -1,5 +1,5 @@
 const OWNER = "phillius99-dot";
-const REPO = "landing_page";
+const REPO = "wangga_private_data"; // 접수자 개인정보가 있어 공개 저장소(landing_page) 대신 비공개 저장소
 const PATH = "data/property_submissions.json";
 
 function b64encode(str) {
@@ -104,7 +104,7 @@ export default async function handler(req, res) {
       method: "PUT",
       headers: { ...headers, "Content-Type": "application/json" },
       body: JSON.stringify({
-        message: `feat: new property submission from ${name}`,
+        message: "feat: new property submission",
         content: b64encode(JSON.stringify(submissions, null, 2)),
         sha,
       }),

@@ -185,7 +185,7 @@ async function ghInfoSubmissions() {
   return {
     token: String(config.github_token || '').replace(/\s+/g, ''),
     owner: config.github_owner,
-    repo: config.github_repo,
+    repo: 'wangga_private_data',  // 접수자 이름·연락처가 있어 공개 저장소(landing_page) 대신 비공개 저장소에 둔다
     path: 'data/property_submissions.json'
   };
 }
