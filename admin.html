@@ -70,11 +70,19 @@
 </div>
 <div id="dashboard-view" class="hidden">
 <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-md mb-xl">
-<h1 class="font-headline-section text-2xl font-bold text-ink">게시글 관리</h1>
+<h1 class="font-headline-section text-2xl font-bold text-ink">관리자</h1>
 <div class="flex gap-md">
 <a href="news-write.html" class="px-lg py-md rounded-lg bg-primary-container text-on-surface font-bold flex items-center justify-center">새 글 작성</a>
 <button id="logout-btn" class="px-lg py-md rounded-lg border border-divider text-ink font-bold">로그아웃</button>
 </div>
+</div>
+<div class="flex gap-sm mb-lg border-b border-divider">
+<button data-tab="submissions" class="tab-btn px-lg py-sm font-bold border-b-4">매물 접수 <span id="submission-count" class="ml-xs inline-block min-w-[24px] px-xs rounded-full bg-error text-white text-sm"></span></button>
+<button data-tab="posts" class="tab-btn px-lg py-sm font-bold border-b-4">게시글 관리 <span id="post-count" class="ml-xs text-muted text-sm"></span></button>
+</div>
+<div id="tab-posts" class="tab-panel hidden">
+<div class="mb-md">
+<input id="post-search" type="search" placeholder="제목·카테고리 검색" class="w-full sm:w-80 px-md py-sm rounded-lg border border-divider focus:outline-none focus:ring-2 focus:ring-primary">
 </div>
 <div class="bg-canvas rounded-xl shadow-sm border border-divider/20 p-md md:p-lg overflow-x-auto">
 <table>
@@ -84,10 +92,10 @@
 <tbody id="post-table-body"></tbody>
 </table>
 <div id="empty-message" class="hidden text-center text-muted py-xl">작성된 게시글이 없습니다.</div>
+<div id="post-pager" class="flex justify-center items-center gap-md pt-md"></div>
 </div>
-<div class="flex justify-between items-center gap-md mt-xxl mb-xl">
-<h1 class="font-headline-section text-2xl font-bold text-ink">온라인 매물 접수</h1>
 </div>
+<div id="tab-submissions" class="tab-panel">
 <div class="bg-canvas rounded-xl shadow-sm border border-divider/20 p-md md:p-lg overflow-x-auto">
 <table>
 <thead>
@@ -96,6 +104,7 @@
 <tbody id="submission-table-body"></tbody>
 </table>
 <div id="submission-empty-message" class="hidden text-center text-muted py-xl">접수된 매물이 없습니다.</div>
+</div>
 </div>
 </div>
 </main>
@@ -109,16 +118,36 @@ async function showLogin() {
 async function showDashboard() {
   document.getElementById('login-view').classList.add('hidden');
   document.getElementById('dashboard-view').classList.remove('hidden');
-  await loadPosts();
-  await loadSubmissions();
+  showTab('submissions');
+  await Promise.all([loadSubmissions(), loadPosts()]);
 }
+
+function showTab(name) {
+  document.querySelectorAll('.tab-panel').forEach(function (p) {
+    p.classList.toggle('hidden', p.id !== 'tab-' + name);
+  });
+  document.querySelectorAll('.tab-btn').forEach(function (b) {
+    const active = b.getAttribute('data-tab') === name;
+    b.classList.toggle('border-primary', active);
+    b.classList.toggle('text-primary', active);
+    b.classList.toggle('border-transparent', !active);
+    b.classList.toggle('text-muted', !active);
+  });
+}
+
+document.querySelectorAll('.tab-btn').forEach(function (b) {
+  b.addEventListener('click', function () { showTab(b.getAttribute('data-tab')); });
+});
 
 async function loadSubmissions() {
   const tbody = document.getElementById('submission-table-body');
   const emptyMsg = document.getElementById('submission-empty-message');
   tbody.innerHTML = '<tr><td colspan="10" class="text-center text-muted">불러오는 중...</td></tr>';
   try {
-    const submissions = await getSubmissions();
+    const submissions = (await getSubmissions()).slice().sort(function (a, b) {
+      return String(b.created_at || '').localeCompare(String(a.created_at || ''));
+    });
+    document.getElementById('submission-count').textContent = submissions.length;
     if (!submissions.length) {
       tbody.innerHTML = '';
       emptyMsg.classList.remove('hidden');
@@ -158,19 +187,42 @@ async function loadSubmissions() {
   }
 }
 
+const POSTS_PER_PAGE = 20;
+let allPosts = [];
+let postPage = 1;
+
 async function loadPosts() {
   const tbody = document.getElementById('post-table-body');
-  const emptyMsg = document.getElementById('empty-message');
   tbody.innerHTML = '<tr><td colspan="5" class="text-center text-muted">불러오는 중...</td></tr>';
   try {
-    const posts = await getPosts();
-    if (!posts.length) {
-      tbody.innerHTML = '';
-      emptyMsg.classList.remove('hidden');
-      return;
-    }
-    emptyMsg.classList.add('hidden');
-    tbody.innerHTML = posts.map(function (post, idx) {
+    allPosts = await getPosts();
+    document.getElementById('post-count').textContent = allPosts.length;
+    renderPosts();
+  } catch (e) {
+    tbody.innerHTML = '<tr><td colspan="5" class="text-center text-error">게시글을 불러오지 못했습니다: ' + escapeHtml(e.message) + '</td></tr>';
+  }
+}
+
+function renderPosts() {
+  const tbody = document.getElementById('post-table-body');
+  const emptyMsg = document.getElementById('empty-message');
+  const pager = document.getElementById('post-pager');
+  const q = document.getElementById('post-search').value.trim().toLowerCase();
+  const posts = q ? allPosts.filter(function (p) {
+    return ((p.title || '') + ' ' + (p.category || '')).toLowerCase().indexOf(q) !== -1;
+  }) : allPosts;
+  if (!posts.length) {
+    tbody.innerHTML = '';
+    pager.innerHTML = '';
+    emptyMsg.classList.remove('hidden');
+    return;
+  }
+  emptyMsg.classList.add('hidden');
+  const pages = Math.ceil(posts.length / POSTS_PER_PAGE);
+  postPage = Math.min(Math.max(postPage, 1), pages);
+  const start = (postPage - 1) * POSTS_PER_PAGE;
+  tbody.innerHTML = posts.slice(start, start + POSTS_PER_PAGE).map(function (post, i) {
+      const idx = start + i;
       return '<tr>' +
         '<td data-label="번호">' + (idx + 1) + '</td>' +
         '<td data-label="카테고리">' + escapeHtml(post.category || '') + '</td>' +
@@ -195,10 +247,23 @@ async function loadPosts() {
         }
       });
     });
-  } catch (e) {
-    tbody.innerHTML = '<tr><td colspan="5" class="text-center text-error">게시글을 불러오지 못했습니다: ' + escapeHtml(e.message) + '</td></tr>';
-  }
+  pager.innerHTML = pages > 1
+    ? '<button data-page="' + (postPage - 1) + '" class="pager-btn px-md rounded border border-divider font-bold"' + (postPage === 1 ? ' disabled' : '') + '>이전</button>' +
+      '<span class="text-muted">' + postPage + ' / ' + pages + '</span>' +
+      '<button data-page="' + (postPage + 1) + '" class="pager-btn px-md rounded border border-divider font-bold"' + (postPage === pages ? ' disabled' : '') + '>다음</button>'
+    : '';
+  pager.querySelectorAll('.pager-btn').forEach(function (b) {
+    b.addEventListener('click', function () {
+      postPage = Number(b.getAttribute('data-page'));
+      renderPosts();
+    });
+  });
 }
+
+document.getElementById('post-search').addEventListener('input', function () {
+  postPage = 1;
+  renderPosts();
+});
 
 document.getElementById('login-form').addEventListener('submit', async function (e) {
   e.preventDefault();
