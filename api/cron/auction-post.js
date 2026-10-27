@@ -1,4 +1,4 @@
-import { collectWeeklyAuctionPost } from "../../lib/auction.js";
+import { collectWeeklyAuctionPost, isAlreadyPosted } from "../../lib/auction.js";
 import { buildSitemap } from "../../lib/sitemap.js";
 
 const OWNER = "phillius99-dot";
@@ -65,10 +65,7 @@ export default async function handler(req, res) {
     const { text: postsText, sha: postsSha } = await fetchFile(token, POSTS_PATH);
     const posts = JSON.parse(postsText || "[]");
 
-    // 제목 뒤 검색용 문구는 데이터에 따라 달라질 수 있으니 "(날짜 기준)"까지만 비교
-    const baseTitle = draft.title.split(" - ")[0];
-    const alreadyPosted = posts.some((p) => String(p.title).startsWith(baseTitle));
-    if (alreadyPosted) {
+    if (isAlreadyPosted(posts, draft)) {
       res.status(200).json({ posted: false, reason: "이미 게시됨", title: draft.title });
       return;
     }

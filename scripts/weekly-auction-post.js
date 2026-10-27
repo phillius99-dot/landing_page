@@ -11,11 +11,12 @@ import fs from "fs";
 import path from "path";
 import { execFileSync } from "child_process";
 import { fileURLToPath } from "url";
-import { collectWeeklyAuctionPost } from "../lib/auction.js";
+import { collectWeeklyAuctionPost, isAlreadyPosted } from "../lib/auction.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.join(__dirname, "..");
 const POSTS_PATH = path.join(rootDir, "data", "posts.json");
+const PUSH_ATTEMPTS = 3;
 
 function loadLocalEnv() {
   const envPath = path.join(__dirname, ".env.local");
@@ -28,6 +29,26 @@ function loadLocalEnv() {
 
 function git(args) {
   return execFileSync("git", args, { cwd: rootDir, encoding: "utf8" });
+}
+
+// posts.json에 글을 추가하고 커밋한다. 이미 게시된 글이면 false.
+function addAndCommit(draft) {
+  const posts = JSON.parse(fs.readFileSync(POSTS_PATH, "utf8"));
+  if (isAlreadyPosted(posts, draft)) {
+    console.log(`이미 게시된 낙찰 건입니다 (사건번호 ${draft.caseNos.length}건 모두 기존 글에 있음): ${draft.title}`);
+    return false;
+  }
+
+  const { caseNos, ...post } = draft;
+  posts.push(post);
+  fs.writeFileSync(POSTS_PATH, JSON.stringify(posts, null, 2));
+  console.log(`포스트 추가됨: ${post.title} (${caseNos.length}건)`);
+
+  execFileSync("node", [path.join(__dirname, "generate-sitemap.js")], { cwd: rootDir, stdio: "inherit" });
+
+  git(["add", "data/posts.json", "sitemap.xml"]);
+  git(["commit", "-m", `feat: add auction post "${post.title}"`]);
+  return true;
 }
 
 async function main() {
@@ -50,23 +71,23 @@ async function main() {
     return;
   }
 
-  const posts = JSON.parse(fs.readFileSync(POSTS_PATH, "utf8"));
-  if (posts.some((p) => p.title === draft.title)) {
-    console.log(`이미 게시된 포스트입니다: ${draft.title}`);
-    return;
+  // 같은 시각에 도는 다른 자동화(매물/블로그 글)가 그 사이 GitHub에 커밋하면 push가
+  // 거부된다. posts.json·sitemap.xml은 rebase하면 충돌나기 쉬우므로, 내 커밋을 되돌리고
+  // 최신 원격 기준으로 다시 추가해서 push한다.
+  for (let attempt = 1; attempt <= PUSH_ATTEMPTS; attempt++) {
+    if (attempt > 1) git(["pull", "--rebase"]);
+    if (!addAndCommit(draft)) return;
+    try {
+      git(["push"]);
+      console.log("GitHub에 커밋 및 푸시 완료.");
+      return;
+    } catch (err) {
+      console.error(`push 실패 (${attempt}/${PUSH_ATTEMPTS}), 원격과 다시 맞춘 뒤 재시도합니다.`);
+      git(["reset", "--hard", "HEAD~1"]);
+      if (attempt === PUSH_ATTEMPTS) throw err;
+      await new Promise((r) => setTimeout(r, 15000));
+    }
   }
-
-  const { caseNos, ...post } = draft;
-  posts.push(post);
-  fs.writeFileSync(POSTS_PATH, JSON.stringify(posts, null, 2));
-  console.log(`포스트 추가됨: ${post.title} (${caseNos.length}건)`);
-
-  execFileSync("node", [path.join(__dirname, "generate-sitemap.js")], { cwd: rootDir, stdio: "inherit" });
-
-  git(["add", "data/posts.json", "sitemap.xml"]);
-  git(["commit", "-m", `feat: add auction post "${post.title}"`]);
-  git(["push"]);
-  console.log("GitHub에 커밋 및 푸시 완료.");
 }
 
 main().catch((err) => {
