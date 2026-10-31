@@ -149,6 +149,13 @@
   const errorEl = document.getElementById('sell-error');
   const btn = document.getElementById('sell-submit');
 
+  // /sise(우리 단지 시세)에서 넘어오면 종류·단지·타입을 미리 채운다
+  const q = new URLSearchParams(location.search);
+  const pt = form.querySelector('input[name="property_type"][value="' + (q.get('pt') || '').replace(/"/g, '') + '"]');
+  if (pt) pt.checked = true;
+  if (q.get('addr')) form.address.value = q.get('addr').slice(0, 200);
+  if (q.get('area')) form.area.value = q.get('area').slice(0, 30);
+
   function fail(msg) {
     errorEl.textContent = msg;
     errorEl.classList.remove('hidden');
