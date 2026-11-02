@@ -1404,4 +1404,16 @@
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
+  <url>
+    <loc>https://landing-page-six-virid-72.vercel.app/news/1793600103647</loc>
+    <lastmod>2026-11-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://landing-page-six-virid-72.vercel.app/news/1793613610662</loc>
+    <lastmod>2026-11-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
 </urlset>
