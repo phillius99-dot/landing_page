@@ -2,43 +2,43 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://landing-page-six-virid-72.vercel.app/</loc>
-    <lastmod>2026-11-07</lastmod>
+    <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://landing-page-six-virid-72.vercel.app/news</loc>
-    <lastmod>2026-11-07</lastmod>
+    <lastmod>2026-11-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://landing-page-six-virid-72.vercel.app/properties</loc>
-    <lastmod>2026-11-07</lastmod>
+    <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://landing-page-six-virid-72.vercel.app/tips</loc>
-    <lastmod>2026-11-07</lastmod>
+    <lastmod>2026-11-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://landing-page-six-virid-72.vercel.app/auction</loc>
-    <lastmod>2026-11-07</lastmod>
+    <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://landing-page-six-virid-72.vercel.app/sell</loc>
-    <lastmod>2026-11-07</lastmod>
+    <lastmod>2026-11-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://landing-page-six-virid-72.vercel.app/sise</loc>
-    <lastmod>2026-11-07</lastmod>
+    <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -1539,6 +1539,36 @@
   <url>
     <loc>https://landing-page-six-virid-72.vercel.app/news/1794014263560</loc>
     <lastmod>2026-11-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://landing-page-six-virid-72.vercel.app/news/1794017705464</loc>
+    <lastmod>2026-11-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://landing-page-six-virid-72.vercel.app/news/1794021304542</loc>
+    <lastmod>2026-11-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://landing-page-six-virid-72.vercel.app/news/1794024903835</loc>
+    <lastmod>2026-11-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://landing-page-six-virid-72.vercel.app/news/1794039305489</loc>
+    <lastmod>2026-11-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://landing-page-six-virid-72.vercel.app/news/1794100663418</loc>
+    <lastmod>2026-11-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
