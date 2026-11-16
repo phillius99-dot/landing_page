@@ -249,11 +249,12 @@ function renderGrid() {
     const tagClass = tagColors[p.trade_type] || 'bg-ink/70';
     const cardInner =
       '<div class="h-48 relative overflow-hidden">' +
-        '<img class="w-full h-full object-cover" alt="' + escapeHtml(p.title || '') + '" src="' + escapeHtml(p.image_url || '') + '">' +
+        '<img class="w-full h-full object-cover' + (p.status === '거래완료' ? ' grayscale opacity-60' : '') + '" alt="' + escapeHtml(p.title || '') + '" src="' + escapeHtml(p.image_url || '') + '">' +
+        (p.status === '거래완료' ? '<div class="absolute inset-0 flex items-center justify-center"><span class="bg-ink/80 text-white font-extrabold text-xl px-lg py-sm rounded-lg tracking-wider">거래완료</span></div>' : '') +
         '<div class="absolute top-md left-md ' + tagClass + ' text-white px-sm py-xs text-xs rounded font-bold backdrop-blur-sm">' + escapeHtml(p.trade_type || '') + '</div>' +
       '</div>' +
       '<div class="p-md">' +
-        '<h3 class="font-bold text-ink text-lg mb-xs truncate">' + escapeHtml(p.title || '') + '</h3>' +
+        '<h3 class="font-bold text-lg mb-xs truncate ' + (p.status === '거래완료' ? 'text-muted' : 'text-ink') + '">' + (p.status === '거래완료' ? '[거래완료] ' : '') + escapeHtml(p.title || '') + '</h3>' +
         '<p class="text-muted text-sm mb-md flex items-center gap-xs">' +
           '<span class="material-symbols-outlined text-sm">location_on</span> ' + escapeHtml(p.address || '') +
         '</p>' +
