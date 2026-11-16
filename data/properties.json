@@ -41,7 +41,9 @@
     "price": "3,000/200",
     "area_floor": "계약62.83㎡ / 저층",
     "image_url": "https://landing-page-six-virid-72.vercel.app/images/properties/2647627467.png",
-    "post_id": "1788495326839"
+    "post_id": "1788495326839",
+    "status": "거래완료",
+    "sold_at": "2026-11-16"
   },
   {
     "id": "1788495343600",
@@ -63,7 +65,9 @@
     "price": "1,200/90",
     "area_floor": "계약72.98㎡ / 저층",
     "image_url": "https://landing-page-six-virid-72.vercel.app/images/properties/2647761876.png",
-    "post_id": "1788495348001"
+    "post_id": "1788495348001",
+    "status": "거래완료",
+    "sold_at": "2026-11-16"
   },
   {
     "id": "1788509721269",
