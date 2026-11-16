@@ -33,8 +33,18 @@ async function readFile(name) {
   if (res.status === 404) return { items: [], sha: undefined };
   if (!res.ok) throw new Error(`조회 실패: ${res.status}`);
   const data = await res.json();
-  let items = [];
-  try { items = JSON.parse(b64decode(data.content) || "[]"); } catch (e) { items = []; }
+  let text = b64decode(data.content || "");
+  // 1MB 넘는 파일은 Contents API 가 content 를 비워서 준다 → raw 로 다시 받음 (2026-11-09 posts.json 259편 → 1편 덮어쓰기 사고)
+  if (!text && data.size > 0) {
+    const raw = await fetch(`https://api.github.com/repos/${OWNER}/${repo}/contents/${path}`, {
+      headers: { Authorization: "token " + process.env.GITHUB_TOKEN.trim(), Accept: "application/vnd.github.raw" },
+    });
+    if (!raw.ok) throw new Error(`원문 조회 실패: ${raw.status}`);
+    text = await raw.text();
+  }
+  // 못 읽었는데 빈 목록으로 저장하면 기존 글이 다 지워진다 → 읽기 실패는 오류로
+  const items = JSON.parse(text || "[]");
+  if (!Array.isArray(items)) throw new Error("데이터 형식 오류");
   return { items, sha: data.sha };
 }
 

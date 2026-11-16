@@ -23,7 +23,15 @@ async function fetchFile(token, path) {
   if (res.status === 404) return { text: null, sha: null };
   if (!res.ok) throw new Error(`${path} 조회 실패: ${res.status}`);
   const data = await res.json();
-  return { text: b64decode(data.content), sha: data.sha };
+  let text = b64decode(data.content || "");
+  // 1MB 넘는 파일은 Contents API 가 content 를 비워서 준다 → raw 로 다시 받음 (2026-11-09 posts.json 259편 → 1편 덮어쓰기 사고)
+  if (!text && data.size > 0) {
+    const raw = await fetch(url, { headers: { Authorization: `token ${token}`, Accept: "application/vnd.github.raw" } });
+    if (!raw.ok) throw new Error(`${path} 원문 조회 실패: ${raw.status}`);
+    text = await raw.text();
+  }
+  if (!text && data.size > 0) throw new Error(`${path} 내용을 읽지 못함 (덮어쓰기 방지로 중단)`);
+  return { text, sha: data.sha };
 }
 
 async function writeFile(token, path, content, sha, message) {
