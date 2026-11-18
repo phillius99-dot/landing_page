@@ -463,7 +463,9 @@
     "price": "매매 11800만원",
     "area_floor": "57C㎡ / 저층 ",
     "image_url": "https://landing-page-six-virid-72.vercel.app/images/properties/2657493289.png",
-    "post_id": "1792818904921"
+    "post_id": "1792818904921",
+    "status": "거래완료",
+    "sold_at": "2026-11-18"
   },
   {
     "id": "1792902607892",
